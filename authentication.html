@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ProfLocator - Log in or sign up</title>
+    <link rel="icon" href="/media/proflocatorLogo.jpg">
+
+    
+    <!--    GOOGLE FONTS    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+    
+    <!--    CSS LINKS    -->
+    <link rel="stylesheet" href="general.css">
+    <link rel="stylesheet" href="authentication.css">
+    
+</head>
+<body>
+    <div id="login-page">     
+        <div>
+            <p>ProfLocator: CCC Rizal Faculty Full-time Professor Availability Tracking Platform</p>
+        </div>
+        <div>    
+            <p>SIGN-IN</p>
+            <input type="text" placeholder="CCC email address" required>
+            <input type="password" placeholder="Password" required>
+            <button class="login-button">Log In</button>
+            <p class="authentication-link" id="js-link-to-signup">Don't have an account? Create one!</p>
+        </div>
+    </div>
+
+    <div id="signup-page">
+        <div>
+            <p>ProfLocator: CCC Rizal Faculty Full-time Professor Availability Tracking Platform</p>
+        </div>
+        <div>    
+            <p>SIGN-UP</p>
+            <input type="text" placeholder="First Name" required>
+            <input type="text" placeholder="Last Name" required>
+            <input type="text" placeholder="Middle Name(Optional)">
+
+            <input type="email" placeholder="CCC Email Address" required>
+
+            <select name="" id="" class="select-user-type">
+                <option value="student">Student</option>
+                <option value="professor">Professor</option>
+            </select>
+
+            <input type="password" placeholder="Password" required>
+
+            <input type="password" placeholder="Confirm password" required>
+
+            <div>
+                <input type="checkbox" id="checkbox" name="terms" required>
+                <label for="checkbox" id="termsAndConditions">I agree to the 
+                    <a href="" target="_blank"><strong>Terms and Conditions</strong></a>
+                </label>
+            </div>
+            <button class="signup-btn">Sign up</button>
+            <p class="authentication-link" id="js-link-to-login">Already have an account?</p>
+        </div>
+    </div>
+    <script src="/script-files/authN-display.js"></script>
+</body>
+</html>

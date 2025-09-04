@@ -1,0 +1,15 @@
+#login-page {
+    display: block;
+}
+
+    .authentication-link {
+        cursor: pointer;
+    }
+
+#signup-page {
+    display: none;
+}
+
+    .select-user-type {
+        
+    }
