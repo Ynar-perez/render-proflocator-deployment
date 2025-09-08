@@ -1,0 +1,70 @@
+:root {
+  --background: #e9eefc;
+  --webColor1: #000877;
+  --available: #28a745;
+  --in-a-meeting: #fd7e14;
+  --in-class: #007bff;
+  --away: #ffc107;
+  --busy: #dc3545;
+  --not-set: #36454F;
+  --black: rgb(35, 35, 35);
+  --shadow: 0px 0px 20px rgba(0, 0, 0, 0.09);
+}
+
+* {
+    font-family: "Nunito", sans-serif;
+    font-weight: 500;
+    line-height: 1.5;
+    font-optical-sizing: auto;
+    padding: 0;
+    margin: 0;
+    transition: all .15s;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--background);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+img, picture, svg, video {
+    display: block;
+    max-width: 100%;
+}
+
+input, textarea, button, select {
+    font: inherit;
+}
+
+input {
+  padding-left: 5px;
+}
+
+button, a {
+  cursor: pointer;
+}
+
+button {
+  font-weight: bold;
+}
+
+input:active {
+  outline: none;
+}
+
+/* SINGLE STYLE */
+
+.bold {
+  font-weight: bold;
+}
+
+.pointer {
+  cursor: pointer;
+}

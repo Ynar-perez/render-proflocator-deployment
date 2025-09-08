@@ -1,0 +1,116 @@
+#info-page {
+    display: none; 
+    flex-direction: column;
+    border-radius: 20px;
+    background-color: white;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.06);
+    font-size: 16px;
+    height: auto;
+    padding: 1% 2% 2% 2%;
+}
+
+.info-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+#info-section-top {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px 15px 0px 20px;
+    padding: 0;
+}
+
+.info-section-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 6px;
+    margin-left: 6px;
+}
+
+#info-section-close-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 38px;
+    border-radius: 25%;
+    aspect-ratio: 1/1;
+    border: 2px solid gray;
+    opacity: 0.2;
+    background-color: transparent;
+    margin-top: 4px;
+}
+
+#info-section-close-btn:hover {
+    opacity: 1;
+    background-color: rgb(255, 134, 134);
+    color: white;
+    border: none;
+}
+
+.info-section {
+    display: flex;
+}
+
+.info-section-display-pic {
+    align-self: center;
+    border: 6px solid var(--available);
+    padding: 6px;
+    background-color: white;
+    width: 40%;
+    border-radius: 50%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+}
+
+.info-section-name {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+}
+.info-section-status {
+    text-align: center;
+    margin-top: -4px;
+    font-weight: 600;
+    color: var(--available);
+}
+
+.x-div {
+    display: flex;
+    flex-direction: row;
+    height: auto;
+    align-items: center;
+}
+
+.cons-details-title {
+    margin: 10px 0;
+}
+
+.office-hours-div {
+    align-items: flex-start;
+}
+
+.icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    aspect-ratio: 1/1;
+    margin-right: 10px;
+}
+
+.office-hours-div ul {
+    list-style-type: none;
+}
+
+.day-div {
+    width: 80px;
+}
+
+.fontawesome-icon {
+    color: rgb(68, 68, 68);
+    font-size: 18px;
+}

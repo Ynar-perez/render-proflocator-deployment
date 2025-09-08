@@ -1,0 +1,86 @@
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+}
+
+#authentication-page {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    padding: 0 10%;
+    align-items: center;
+    justify-content: center;
+}
+
+#intro-div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    padding: 38px 0px;
+    margin-bottom: 20px;
+}
+
+#login-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 32%;
+    height: auto;
+}
+
+#signup-div {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    width: 32%;
+    height: auto;
+}
+
+#student-page {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 100px 6% 30px 6%;
+    column-gap: 2%;
+}
+
+#prof-card-container {
+    height: auto;
+    min-width: 50%;
+    flex: 2;
+    max-width: 84%;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid red;
+}
+
+#search-component {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 50px;
+    border: 2px solid blue;
+}
+
+#info-page {
+    display: none;
+    min-width: 400px;
+    flex: 1;
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: static;
+    width: 100%;
+    min-height: 40px;
+    bottom: 0;
+}

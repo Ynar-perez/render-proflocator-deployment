@@ -1,0 +1,7 @@
+#authentication-page {
+    display: none;
+}
+
+header, #student-page {
+    display: flex;
+}
