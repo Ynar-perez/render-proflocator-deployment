@@ -70,7 +70,6 @@
 /* EDITING DIV */
 
 #prof-sec-edit {
-    display: flex;
     flex-direction: column;
     height: auto;
     width: 440px;
@@ -80,6 +79,7 @@
     height: auto;
     justify-content: flex-start;
     box-shadow: var(--shadow);
+    display: none;
 }
 
 #prof-sec-edit-title {
@@ -116,23 +116,31 @@
 
 .prof-sec-edit-office-hour {
     display: grid;
-    grid-template-columns: 1fr 80px 20px 1fr 60px;
+    grid-template-columns: 1fr 80px 20px 1fr 26px;
     margin-left: 20px;
 }
 
 .office-hour-delete-text, .office-hour-add-text {
+    aspect-ratio: 1 / 1;
     text-align: center;
+}
+
+.office-hour-delete-text {
+    color: red;
+}
+
+.office-hour-add-text {
+    color: green;
 }
 
 .office-hour-delete-text:hover, .office-hour-add-text:hover {
     cursor: pointer;
-    color: var(--webColor1);
-    text-decoration: underline; 
 }
+
 
 #add-office-hour {
     display: grid;
-    grid-template-columns: 70px auto 8px auto 60px;
+    grid-template-columns: 70px auto 8px auto 26px;
     column-gap: 6px;
     margin-left: 20px;
 }

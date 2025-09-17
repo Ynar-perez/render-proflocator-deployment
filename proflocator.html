@@ -70,7 +70,10 @@
                     Prof. <span id="prof-user-name" class="bold"></span>
                 </p>
             </div>
-            <p class="prof-sec-status bold">Active</p>
+            <p class="prof-sec-status">
+                Status: 
+                <span class="prof-status bold">Busy</span>
+            </p>
 
             <p>Office hours:</p>
             
@@ -94,7 +97,7 @@
                 </select>
             </div>
 
-            <p class="bold">Office Hours: </p>
+            <p class="bold">Office Hours:</p>
             <div id="prof-sec-edit-office-hours">
                 <!-- GENERATE HTML -->
             </div>
@@ -111,7 +114,7 @@
                 <input type="time" id="add-office-hour-from-time">
                 <p>-</p>
                 <input type="time" id="add-office-hour-to-time">
-                <p id="js-office-hour-add-text" class="office-hour-add-text">Add</p>
+                <p id="js-office-hour-add-text" class="office-hour-add-text"><i class="fa-solid fa-plus"></i></p>
             </div>
 
             <div id="prof-sec-edit-btn-container">
@@ -178,9 +181,5 @@
     <script type="module" src="/scripts/prof-section.js"></script>
     <script type="module" src="/scripts/show-profile.js"></script>
     
-    <!--LIVE TIME AND DATE-->
-
-        <!--TEMP SCRIPT-->
-        
 </body>
 </html>

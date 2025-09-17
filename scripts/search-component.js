@@ -98,3 +98,21 @@ function toggleFilter() {
     
     doFilter(currentStatus);
 }
+
+// SEARCH BAR FUNCTIONALITY
+const searchBar = document.getElementById('search-bar');
+searchBar.addEventListener('input', function() {
+    const query = searchBar.value.trim().toLowerCase();
+    const profCards = document.querySelectorAll('.prof-card');
+    profCards.forEach(card => {
+        const nameElem = card.querySelector('.prof-name');
+        if (nameElem) {
+            const name = nameElem.innerText.replace('Prof. ', '').toLowerCase();
+            if (name.includes(query)) {
+                card.style.display = 'flex';
+            } else {
+                card.style.display = 'none';
+            }
+        }
+    });
+});
