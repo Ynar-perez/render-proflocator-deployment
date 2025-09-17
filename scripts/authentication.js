@@ -1,10 +1,14 @@
-document.getElementById('js-link-to-signup').addEventListener('click', () => {
+document.getElementById('js-link-to-signup').addEventListener('click', displaySignup)
+
+document.getElementById('js-link-to-login').addEventListener('click', displayLogin)
+
+function displaySignup() {
     document.getElementById('login-div').style.display = 'none';
     document.getElementById('signup-div').style.display = 'flex';
-})
+}
 
-document.getElementById('js-link-to-login').addEventListener('click', () => {
+function displayLogin() {
     document.getElementById('signup-div').style.display = 'none';
     document.getElementById('login-div').style.display = 'flex';
-})
+}
 

@@ -8,55 +8,81 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    padding: 0px 20px;
+    padding: 10px 20px;
+    width: 100%;
+    height: 70px;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+}
+
+#logo-title-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 200px;
+    background-color: white;
+    border-radius: 50px;
+    box-shadow: var(--shadow);
+}
+
+#logo-title-container img {
+    height: 100%;
+    aspect-ratio: 1/1;
+    border: 8px solid white;
+    border-radius: 25px;
+}
+
+#logo-title-container p {
+    font-size: 20px;
+    font-weight: bold;
+    padding-right: 10px;
 }
 
 #search-bar-div {
     display: flex;
     flex-direction: row;
-    width: 36%;
+    width: auto;
+    height: 100%;
+    border-radius: 25px;
+    background-color: white;
+    align-items: center;
+    box-shadow: var(--shadow);
 }
+
+.search-icon {
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    color: var(--webColor1);
+    cursor: pointer;
+    background-color: white;
+    border-bottom-left-radius: 25px;
+    border-top-left-radius: 25px;
+    width: 50px;
+    padding-left: 10px;
+}
+
 
 #search-bar {
     display: flex;
-    border-radius: 18px;
-    padding: 10px 10px 10px 20px;
+    height: inherit;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    padding: 10px 10px 10px 0;
     flex: 1;
-    border: 2px solid var(--webColor1);
-    border: none;
     font-weight: bold;
-    color: rgb(155, 155, 155);
+    background-color: transparent;
+    color: rgb(51, 51, 51);
+    border: none;
 }
 
 #search-bar:focus {
     outline: none;
-}
-
-.btn-style1 {
-    height: 100%;
-    padding: 0px 14px;
-    text-wrap: nowrap;
-    font-weight: bold;
-    background-color: var(--webColor1);
-    color: white;
-    border-radius: 8px;
-    border: none;
-}
-
-#search-btn {
-    background-color: transparent;
-    color: var(--webColor1);
-    margin-left: 8px;
-    aspect-ratio: 1/1;
-    border-radius: 50%;
-    background-color: white;
-    border: 2px solid transparent;
-}
-
-#search-btn:hover {
-    background-color: var(--webColor1);
-    color: white;
-    border: 2px solid var(--webColor1);
 }
 
 #filter-div {
@@ -64,28 +90,19 @@
     flex-direction: row;
     height: 100%;
     align-items: center;
-    width: auto;
+    width: 200px;
     justify-self: end;
     align-self: flex-end;
+    padding: 0 6px 0 20px;
+    border-radius: 25px;
+    background-color: white;
+    box-shadow: var(--shadow);
 }
 
 #filter-div p {
     color: var(--webColor1);
     font-weight: 700;
 }   
-
-#filter-btn {
-    margin-left: 10px;
-    width: 120px;
-    height: 80%;
-    justify-content: end;
-}
-
-#prof-card-grid {
-    background-color: white;
-    border-radius: 20px;
-    box-shadow: var(--shadow);
-}
 
 #prof-card-grid {
     min-height: 100px;
@@ -95,37 +112,47 @@
     justify-content: center;
     column-gap: 20px;
     row-gap: 20px;
-    margin-top: 20px;
+    margin-top: 12px;
     padding: 30px 2%;
     flex-wrap: wrap;
-    border: 2px solid green;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: var(--shadow);
 }
 
 .prof-card {
     display: flex;
     flex-direction: column;
     min-width: 200px;
-    max-width: 280px;
+    max-width: 220px;
     flex: 1;
     border-radius: 14px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-    border: 2px solid orange;
+    border: 4px solid transparent;
 }
+
+.prof-card * {
+    cursor: pointer;
+}
+
+.prof-card:hover {
+    transform: scale(1.1);
+}
+
 .prof-card img {
     flex: 1;
     aspect-ratio: 9/7;
     object-fit: cover;
-    border-top-right-radius: 14px;
-    border-top-left-radius: 14px;
+    border-radius: 10px;
 }
+
 .prof-info-div {
     display: inherit;
     flex-direction: column;
-    padding: 4px 10px;
+    padding: 4px 10px 10px 10px;
     border-bottom-right-radius: 14px;
     border-bottom-left-radius: 14px;
     height: auto;
-    bottom: 0;
 }
 .prof-info-div * {
     margin: -1px 0;
@@ -149,26 +176,4 @@
 
 .status span {
     font-size: 20px;
-}
-
-.view-more-btn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 6px;
-    border: none;
-    margin: 8px 0;
-    padding: 6px 0;
-    border: 2px solid var(--webColor1);
-    background-color: transparent;
-    color: var(--webColor1);
-    font-weight: bold;
-    cursor: pointer;
-    height: 40px;
-}
-
-.view-more-btn:hover {
-    border: 2px solid var(--webColor1);
-    background-color: var(--webColor1);
-    color: white;
 }

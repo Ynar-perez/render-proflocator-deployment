@@ -1,16 +1,5 @@
 document.getElementById('filter-btn').addEventListener('click', toggleFilter)
 
-/*
-    STATUS
-
-    Available
-    In a Meeting
-    In Class
-    Away
-    Busy
-    Not Set
-*/
-
 function toggleFilter() {
     const showButtonElement = document.getElementById('filter-btn');
     const filter = showButtonElement.innerText;

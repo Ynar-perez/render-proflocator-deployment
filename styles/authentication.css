@@ -1,10 +1,51 @@
-/* PROFLOCATOR LOGO WITH TITLE */
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+    justify-content: space-between;
+}
+
+#authentication-page {
+    width: 100%;
+    height: inherit;
+    display: flex;
+    flex-direction: row;
+    padding: 0 10%;
+    align-items: center;
+    justify-content: center;
+}
+
+#login-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 32%;
+    height: auto;
+}
+
+#signup-div {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    width: 32%;
+    height: auto;
+}
+
 #intro-div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    min-width: 600px;
+    padding: 38px 0px;
+    margin-bottom: 20px;
     border-radius: 20px;
     background-color: white;
     box-shadow: var(--shadow);
-    min-width: 600px;
 }
+
 #intro-div img {
     width: 80px;
     height: 80px;
@@ -16,7 +57,6 @@
     font-size: 24px;
     width: 480px;
     color: var(--black);
-    margin-right: 0px;
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -46,7 +86,7 @@
     margin-bottom: 10px;
 }
 
-.icon-input-div i {
+.icon-div {
     display: inherit;
     justify-content: center;
     align-items: center;
@@ -56,6 +96,9 @@
     border-right: none;
     border-top-left-radius: 6px;
     border-bottom-left-radius: 6px;
+}
+
+.icon-div i {
     color: rgb(73, 73, 73);
 }
 
@@ -73,16 +116,7 @@
     border: 1px solid rgba(128, 128, 128, 0.377);
 }
 
-.authN-btn {
-    border: none;
-    height: 34px;
-    padding: 0px 16px;
-    font-size: 14px;
-    color: white;
-    background-color: var(--webColor1);
-    border-radius: 6px;
-    text-transform: uppercase;
-}
+
 
 #authentication-page hr {
     border: 1px solid rgba(0, 0, 0, 0.089);
@@ -139,6 +173,3 @@
     width: auto;
 }
 
-#signup-div .authN-btn {
-    margin-top: 10px;
-}

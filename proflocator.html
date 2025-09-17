@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>ProfLocator - Log in or sign up</title>
+    <title>ProfLocator</title>
     <link rel="icon" href="/media/proflocator-icon-modified (1).png">
 
     <!--    GOOGLE FONTS    -->
@@ -12,7 +12,9 @@
     <!--    CSS LINKS    -->
     <link rel="stylesheet" href="/styles/authentication.css">
     <link rel="stylesheet" href="/styles/general.css">
+    <link rel="stylesheet" href="/styles/buttons.css">
     <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/styles/prof-section.css">
     <link rel="stylesheet" href="/styles/prof-card.css">
     <link rel="stylesheet" href="/styles/layout.css">
     <link rel="stylesheet" href="/styles/info-section.css">
@@ -23,56 +25,6 @@
     <link rel="stylesheet" href="/styles/temp.css">
 </head>
 <body>
-    <!--AUTHENTICATION PAGE-->
-    <div id="authentication-page">
-        <!--SHOW WHEN SIGNING IN-->
-        <div id="login-div">        
-                <p class="auth-type-title bold">SIGN-IN</p>
-                <div class="icon-input-div">
-                    <i class="fa-solid fa-user"></i>
-                    <input type="text" placeholder="CCC email address" required>
-                </div>
-                <div class="icon-input-div">
-                    <i class="fa-solid fa-lock"></i>
-                    <input type="password" placeholder="Password" required>
-                </div>
-                <button class="login-button authN-btn">Log In</button>
-                <hr>
-                <p class="">Don't have an account? <span class="authentication-link bold" id="js-link-to-signup">Sign up</span></p>
-        </div>
-        
-        <div id="intro-div">
-            <img src="/media/proflocator-icon-modified.png" alt="proflocator logo" width="120px"><center>
-                <p class="bold">ProfLocator: CCC Rizal Faculty Full-time Professor Availability Tracking Platform</p>
-            </center>
-        </div>
-        <!--SHOW WHEN SIGNING UP-->
-        <div id="signup-div">   
-            <p class="auth-type-title bold">SIGN-UP</p>
-            <input type="text" placeholder="First Name" required>
-            <input type="text" placeholder="Last Name" required>
-            <input type="text" placeholder="Middle Name(Optional)">
-            
-            <input type="email" placeholder="CCC Email Address" required>
-        
-            <input type="password" placeholder="Password" required>
-            
-            <input type="password" placeholder="Confirm password" required>
-            
-            <div id="term-and-condition-div">
-                <input type="checkbox" id="checkbox" name="terms" required>
-
-                <p id="terms-and-conditions">I agree to the <a href="" target="_blank"><span class="bold">Terms and Conditions</span></a></p>
-            </div>
-
-            <button class="signup-btn authN-btn">Sign up</button>
-
-            <hr> 
-
-            <p>Already have an account? <span class="authentication-link bold" id="js-link-to-login">Log In</span></p>
-        </div>
-    </div>
-
     <!--MAIN WEB-->
     <!--HEADER-->
     <header>
@@ -88,23 +40,102 @@
 
         <div id="header-right-div">
             <div id="user-info-div">
-                <p id="user-name">Nathaniel Feliciano</p>
-                <p id="user-type">Student</p>
+                <p id="user-name"></p>
+                <p id="user-type"></p>
             </div>
-            <img src="/media/sample-avatar.png" alt="P" width="20px" height="20px">
-        </div>
+            <button id="profile-img-btn" onclick="showDropdown()">
+                <img src="/media/jaspergarcia.jpg" alt="P" width="20px" height="20px" id="profile-img">
+            </button>
+        </div>        
     </header>
 
-    <!--SHOW WHEN USER IS A STUDENT-->
-    <section id="student-page">
-        <div id="prof-card-container">
-            <div id="search-component">
-                <div id="search-bar-div">
-                    <input type="search" placeholder="Locate a professor" id="search-bar">
+    <div id="dropdown-menu">
+        <a href="authentication.html" class="dropdown-option" id="logout-btn">
+            <div class="dropdown-icon-container">
+                <i class="fa-solid fa-right-from-bracket"></i>
+            </div>
+            <p class="dropdown-option-label">Log out</p>
+        </a>
+    </div>
 
-                    <button id="search-btn" class="btn-style1">
-                        <i class="seacrh-icon fa-solid fa-magnifying-glass"></i>
-                    </button>
+    <!--SHOWS WHEN THE USER IS A PROFESSOR | PROFESSOR ONLY SECTION-->
+
+    <section id="prof-sec">
+        <div id="prof-sec-details">
+            <div id="prof-name-greeting">
+                <p id="greet">
+                    <span id="greeting"></span>,
+                </p>
+                <p id="prof">
+                    Prof. <span id="prof-user-name" class="bold"></span>
+                </p>
+            </div>
+            <p class="prof-sec-status bold">Active</p>
+
+            <p>Office hours:</p>
+            
+            <div id="prof-sec-office-hours-container">
+
+            </div>
+            <button id="edit-btn" class="btn-style-1">Edit</button>
+        </div>
+
+
+        <div id="prof-sec-edit">
+            <p id="prof-sec-edit-title">Edit Availability</p>
+            <div id="set-status-container">
+                <span class="bold">Set status:</span>
+                <select name="status" id="status-options" class="dropdown">
+                    <option value="available">Available</option>
+                    <option value="in-a-meeting">In a Meeting</option>
+                    <option value="in-class">In Class</option>
+                    <option value="away">Away</option>
+                    <option value="busy">Busy</option>
+                </select>
+            </div>
+
+            <p class="bold">Office Hours: </p>
+            <div id="prof-sec-edit-office-hours">
+                <!-- GENERATE HTML -->
+            </div>
+
+            <div id="add-office-hour">
+                <select name="day" id="add-office-hour-day">
+                    <option value="Monday">Mon</option>
+                    <option value="Tuesday">Tues</option>
+                    <option value="Wednesday">Wed</option>
+                    <option value="Thursday">Thu</option>
+                    <option value="Friday">Fri</option>
+                    <option value="Saturday">Sat</option>
+                </select>
+                <input type="time" id="add-office-hour-from-time">
+                <p>-</p>
+                <input type="time" id="add-office-hour-to-time">
+                <p id="js-office-hour-add-text" class="office-hour-add-text">Add</p>
+            </div>
+
+            <div id="prof-sec-edit-btn-container">
+                <button id="cancel-btn" class="btn-style-2">Cancel</button>
+                <button id="update-btn" class="btn-style-1">Update</button>
+            </div>
+        </div>
+        
+    </section>
+
+    <!--SHOWS WHETHER THE USER IS A STUDENT OR A PROFESSOR-->
+    <section id="student-section">
+        <div id="prof-card-container">
+            <!--SEARCH SECTION-->
+            <div id="search-component">
+                <div id="logo-title-container">
+                    <img src="/media/proflocatorLogo.jpg">
+                    <p>ProfLocator</p>
+                </div>
+                <div id="search-bar-div">
+                    <div class="search-icon">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                    <input type="search" placeholder="Locate a professor" id="search-bar">
                 </div>
                 <div id="filter-div">
                     <p>Show:</p>
@@ -119,87 +150,18 @@
 
         <div id="info-page">
             <div id="info-section-top">
-                <p class="info-section-title">Profile</p>
+                <p id="info-section-title">ProfDetail</p>
                 <button id="info-section-close-btn">
                     <i class="close-icon fa-solid fa-xmark"></i>
                 </button>
             </div>
-            <!--JS WILL GENERATE THESE-->
-            <div class="info-container info-section">
-
-                <img src="/media/jaspergarcia.jpg" class="info-section-display-pic">
-                <p class="info-section-name">Prof. Jasper Garcia</p>
-                <p class="info-section-status">Available</p>
-
-                <!--DEPARTMENT-->
-                <div class="x-div">
-                    <div class="icon-container">
-                        <i class="fontawesome-icon fa-solid fa-school"></i>
-                    </div>
-                    <p>Department of 
-                        <span class="bold">Computer and Informatics</span>
-                    </p>
-                </div>
-
-                <!--CONSULTATION DETAILS-->
-                <p class="bold cons-details-title">Consultation Details:</p>
-                
-                <!--OFFICE HOURS-->
-                <div class="x-div office-hours-div">
-                    <div class="icon-container">
-                        <i class="fontawesome-icon clock-icon fa-solid fa-clock"></i>
-                    </div>
-
-                    <div class="day-div bold">
-                        <ul >
-                            <li>Monday:</li>
-                            <li>Tuesday:</li>
-                            <li>Saturday:</li>
-                        </ul>
-                    </div>
-                    <div class="time-div">
-                        <ul>
-                            <li>11:00 am - 3:00 pm</li>
-                            <li>10:00 am - 12:00 pm</li>
-                            <li>2:00 pm - 4:00 pm</li>
-                        </ul>
-                    </div>
-
-                </div>
-
-                <!--OFFICE LOCATION-->
-                <div class="x-div">
-                    <div class="icon-container">
-                        <i class="fontawesome-icon fa-solid fa-map-pin"></i>
-                    </div>
-                    <p>
-                        <span class="bold">Faculty Room</span>
-                         at 
-                        <span class="bold">Rizal Building</span>
-                    </p>
-                </div>
-
-                <!--EMAIL ADDRESS-->
-                <div class="x-div">
-                    <div class="icon-container">
-                        <i class="fontawesome-icon fa-solid fa-at"></i>
-                    </div>
-                    <p class="bold pointer">
-                        example@ccc.edu.ph
-                    </p>
-                </div>
-
-
+            <div id="js-generated-html-info-container">
+                <!--JS WILL GENERATE THESE-->
             </div>
 
             <!--END HERE-->
         </div>
     </section>
-
-    <!--SHOW WHEN USER IS A PROFESSOR-->
-    <div id="professor-page">
-
-    </div>
 
     <!--FOOTER-->
     <footer>
@@ -207,15 +169,18 @@
     </footer>
 
     <!--SCIPTS-->
-        <!--DATA/ARRAYS-->
-    <script src="/data/prof-card-contents.js"></script>
-        <!--PAGE INTERACTIVITY-->
-    <script src="/scripts/authentication.js"></script>
-    <script src="/scripts/main.js"></script>
+    <script src="/scripts/temp.js"></script>
+    <script type="module" src="/scripts/proflocator.js"></script>
+
+    <!--PAGE INTERACTIVITY-->
     <script src="/scripts/search-component.js"></script>
-    <script src="/scripts/prof-card.js"></script>
-    <script src="/scripts/show-profile.js"></script>
-        <!--LIVE TIME AND DATE-->
-    <script src="/scripts/time-date.js"></script>
+    <script type="module" src="/scripts/prof-card.js"></script>
+    <script type="module" src="/scripts/prof-section.js"></script>
+    <script type="module" src="/scripts/show-profile.js"></script>
+    
+    <!--LIVE TIME AND DATE-->
+
+        <!--TEMP SCRIPT-->
+        
 </body>
 </html>

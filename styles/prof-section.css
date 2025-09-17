@@ -1,0 +1,153 @@
+#prof-sec {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+    margin: 100px 0 0 0;
+    align-items: flex-start;
+    column-gap: 20px;
+}
+
+#prof-sec-details {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    padding: 1% 2%;
+    background-color: white;
+    border-radius: 20px;
+    height: auto;
+    box-shadow: var(--shadow);
+}
+
+#prof-name-greeting p, #prof-name-greeting span {
+    font-size: 24px;
+}
+
+#prof {
+    margin-top: -8px;
+}
+
+#prof-sec-office-hours-container {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    padding-left: 12px;
+    border: 2px solid rgb(177, 177, 177);
+    border-radius: 8px;
+}
+
+.prof-sec-office-hours-container p {
+    display: inline;
+}
+
+
+.day-time-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+
+.day {
+    display: flex;
+    flex: 1;
+    font-weight: 700;
+}
+
+.hyphen {
+    margin: 0 4px;
+}
+
+.from-time, .to-time {
+    width: 90px; 
+}
+
+.from-time {
+    text-align: end;
+}
+
+/* EDITING DIV */
+
+#prof-sec-edit {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    width: 440px;
+    padding: 1% 2%;
+    background-color: white;
+    border-radius: 20px;
+    height: auto;
+    justify-content: flex-start;
+    box-shadow: var(--shadow);
+}
+
+#prof-sec-edit-title {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+}
+
+#set-status-container {
+    display: inherit;
+    justify-content: space-between;
+    height: auto;
+    align-items: center;
+}
+
+#set-status-container select {
+    margin-bottom: -10px;
+}
+
+#status-options {
+    padding: 0 8px;
+    margin-left: 6px;
+}
+
+#rof-sec-edit-office-hours {
+    display: inherit;
+    width: 100%;   
+}
+
+.prof-sec-edit-office-hour {
+    display: inherit;
+    flex-direction: column;
+}
+
+.prof-sec-edit-office-hour {
+    display: grid;
+    grid-template-columns: 1fr 80px 20px 1fr 60px;
+    margin-left: 20px;
+}
+
+.office-hour-delete-text, .office-hour-add-text {
+    text-align: center;
+}
+
+.office-hour-delete-text:hover, .office-hour-add-text:hover {
+    cursor: pointer;
+    color: var(--webColor1);
+    text-decoration: underline; 
+}
+
+#add-office-hour {
+    display: grid;
+    grid-template-columns: 70px auto 8px auto 60px;
+    column-gap: 6px;
+    margin-left: 20px;
+}
+
+#prof-sec-edit-btn-container {
+    display: flex;
+    justify-content: space-around;
+    column-gap: 6px;
+    margin-top: 10px;
+}
+
+#prof-sec-edit-btn-container button {
+    width: 100%;
+}
+
+
+
+
