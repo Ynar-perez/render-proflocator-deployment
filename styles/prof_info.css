@@ -22,7 +22,8 @@
 }
 
 #info-section-title {
-    font-size: 20px;
+    font-size: 16px;
+    text-transform: uppercase;
     font-weight: bold;
     margin-top: 6px;
     margin-left: 6px;

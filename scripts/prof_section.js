@@ -1,17 +1,18 @@
 
 import { profData } from "../data/prof.js";
 import { greetings, convertTo12HourFormat, getDayIndex } from "./utils/time-date.js";
-
+import { changeStatusTextColor } from "./utils/color.js";
 // --- Initialization ---
 
 displayProfSection();
-greetings();
+
+
 
 // USER DATA
 let user = '';
 let editingUser = null; // DUPLICATE COPY FOR EDITING
 
-// DISPLAY PROF SECTION IF USER IS A PROFESSOR
+// 1. DISPLAY PROF SECTION IF USER IS A PROFESSOR
 function displayProfSection() {
     const typeOfAccount = document.getElementById('user-type');
     if (typeOfAccount.innerText === 'PROFESSOR') {
@@ -22,14 +23,25 @@ function displayProfSection() {
     }
 }
 
-// FIND THE CURRENT USER FROM profData
+// 2. IDENTIFY THE USER AND GET DATA
 profData.forEach((prof) => {
     if (prof.pName === document.getElementById('user-name').innerText) {
         user = prof;
     }
 });
-document.getElementById('prof-user-name').innerHTML = user.pName;
 
+// 3. DISPLAY CONTENTS IN PROF SECTION USNIG THE DATA
+displayProfSectionContents();
+
+function displayProfSectionContents() {
+    greetings(); // GREETING
+    document.getElementById('prof-user-name').innerHTML = user.pName; // NAME
+    displayProfStatus(); // STATUS
+    changeStatusTextColor();
+    renderOfficeHours(); // OFFICE HOURS
+}
+
+// UNKNOWN FUNCTION
 function parseTime(timeStr) {
     let [time, modifier] = timeStr.split(' ');
     let [hours, minutes] = time.split(':').map(Number);
@@ -47,6 +59,12 @@ function sortOfficeHours(arr) {
         if (dayDiff !== 0) return dayDiff;
         return parseTime(a.from) - parseTime(b.from);
     });
+}
+
+// DISPLAY STATUS
+function displayProfStatus() {
+    const statusContainer = document.getElementById('prof-sec-status');
+    statusContainer.innerHTML = user.status || 'Not Set';
 }
 
 // DISPLAY OFFICE HOURS
@@ -71,8 +89,14 @@ function renderOfficeHours() {
     document.getElementById('prof-sec-office-hours-container').innerHTML = profDayTimeSetHTML;
 }
 
-// DISPLAY OFFICE HOURS IN EDITING PAGE
+// EDIT BUTTON; OPENS EDITING PAGE
+document.getElementById('edit-btn').addEventListener('click', () => {
+    editingUser = JSON.parse(JSON.stringify(user));
+    document.getElementById('prof-sec-edit').style.display = 'flex';
+    renderEditingPageOfficeHours();
+});
 
+// DISPLAY OFFICE HOURS IN EDITING PAGE USING editingUser(duplicate copy of prof data)
 function renderEditingPageOfficeHours() {
     let profDayTimeSetHTML = '';
     if (!editingUser) return;
@@ -128,13 +152,6 @@ function renderEditingPageOfficeHours() {
     });
 }
 
-// EDIT BUTTON; OPENS EDITING PAGE
-document.getElementById('edit-btn').addEventListener('click', () => {
-    editingUser = JSON.parse(JSON.stringify(user));
-    document.getElementById('prof-sec-edit').style.display = 'flex';
-    renderEditingPageOfficeHours();
-});
-
 // SELECT STATUS; ONLY UPDATE WHEN UPDATE BUTTON IS CLICKED
 document.getElementById('status-options').addEventListener('change', (e) => {
     if (!editingUser) return;
@@ -175,17 +192,36 @@ document.getElementById('js-office-hour-add-text').addEventListener('click', () 
 });
 
 // UPDATE BUTTON
+document.getElementById('update-btn').addEventListener('click', updateChanges);
+
 function updateChanges() {
     if (editingUser) {
         user.officeHours = JSON.parse(JSON.stringify(editingUser.officeHours));
         user.status = editingUser.status;
     }
-    renderOfficeHours();
+    displayProfSectionContents();
     document.getElementById('prof-sec-edit').style.display = 'none';
     editingUser = null;
+
+    // HIDE INFO PAGE WHEN UPDATED
+    const infoPage = document.getElementById('info-page');
+    infoPage.style.display = 'none';
+
+    updateUserProfCardStatus();
+    changeStatusTextColor();
 }
 
-document.getElementById('update-btn').addEventListener('click', updateChanges);
+console.log(user);
+
+function updateUserProfCardStatus() {
+    document.querySelectorAll('.prof-card').forEach(card => {
+        const name = card.querySelector('.prof-name').innerText.replace('Prof. ', '').trim();
+        if (name === user.pName) {
+            const statusElement = card.querySelector('.status');
+            statusElement.innerText = user.status;
+        }
+    })
+}
 
 // CANCEL EDITING BUTTON
 document.getElementById('cancel-btn').addEventListener('click', () => {
@@ -196,6 +232,5 @@ document.getElementById('cancel-btn').addEventListener('click', () => {
     document.getElementById('add-office-hour-to-time').value = '';
 });
 
-// RENDER
-renderOfficeHours();
-renderEditingPageOfficeHours();
+
+

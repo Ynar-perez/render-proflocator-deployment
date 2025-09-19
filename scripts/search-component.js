@@ -1,5 +1,5 @@
 import { changeStatusBgColor } from './utils/color.js';
-
+import {} from './utils/filter.js';
 
 document.getElementById('filter-btn').addEventListener('click', toggleFilter)
 
@@ -78,6 +78,7 @@ function doFilter(currentStatus) {
 
 // SEARCH BAR FUNCTIONALITY
 const searchBar = document.getElementById('search-bar');
+
 searchBar.addEventListener('input', function() {
     const query = searchBar.value.trim().toLowerCase();
     const profCards = document.querySelectorAll('.prof-card');

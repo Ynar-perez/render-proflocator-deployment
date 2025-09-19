@@ -5,7 +5,6 @@ import { updateLiveTime } from "./utils/time-date.js";
 updateLiveTime();
 setInterval(updateLiveTime, 1000);
 
-
 // DROPDOWN MENU
 const dropdownMenu = document.getElementById('dropdown-menu');
 const profileImgBtn = document.getElementById('profile-img-btn');

@@ -86,7 +86,8 @@
 }
 
 #prof-sec-edit-title {
-    font-size: 18px;
+    font-size: 16px;
+    text-transform: uppercase;
     font-weight: bold;
     text-align: center;
 }
