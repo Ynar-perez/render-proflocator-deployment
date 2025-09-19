@@ -1,4 +1,10 @@
 #prof-card-container {
+    height: auto;
+    min-width: 50%;
+    flex: 2;
+    max-width: 84%;
+    display: flex;
+    flex-direction: column;
     border-radius: 20px;
     background-color: transparent;
 }
@@ -66,7 +72,6 @@
     width: 50px;
     padding-left: 10px;
 }
-
 
 #search-bar {
     display: flex;

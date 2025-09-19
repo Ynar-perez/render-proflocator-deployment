@@ -1,16 +1,28 @@
 
 import { profData } from "../data/prof.js";
-import { greetings, convertTo12HourFormat } from "./utils/time-date.js";
-import { setProfSectionStatusColor } from "./utils/status-color.js";
+import { greetings, convertTo12HourFormat, getDayIndex } from "./utils/time-date.js";
 
 // --- Initialization ---
+
+displayProfSection();
 greetings();
 
-// --- User Data ---
+// USER DATA
 let user = '';
-let editingUser = null; // Deep copy for editing
+let editingUser = null; // DUPLICATE COPY FOR EDITING
 
-// Find the current user from profData
+// DISPLAY PROF SECTION IF USER IS A PROFESSOR
+function displayProfSection() {
+    const typeOfAccount = document.getElementById('user-type');
+    if (typeOfAccount.innerText === 'PROFESSOR') {
+        document.getElementById('prof-sec').style.display = 'flex';
+        document.getElementById('student-section').style.paddingTop = '30px';
+    } else if (typeOfAccount.innerText === 'STUDENT') {
+        document.getElementById('prof-sec').style.display = 'none';
+    }
+}
+
+// FIND THE CURRENT USER FROM profData
 profData.forEach((prof) => {
     if (prof.pName === document.getElementById('user-name').innerText) {
         user = prof;
@@ -18,14 +30,7 @@ profData.forEach((prof) => {
 });
 document.getElementById('prof-user-name').innerHTML = user.pName;
 
-// --- Utility Functions ---
-function getDayIndex(day) {
-    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    return days.indexOf(day);
-}
-
 function parseTime(timeStr) {
-    // Accepts '8:00 AM', '13:00', etc.
     let [time, modifier] = timeStr.split(' ');
     let [hours, minutes] = time.split(':').map(Number);
     if (modifier) {
@@ -35,6 +40,7 @@ function parseTime(timeStr) {
     return hours * 60 + (minutes || 0);
 }
 
+// SORT OFFICE HOURS
 function sortOfficeHours(arr) {
     return arr.slice().sort((a, b) => {
         const dayDiff = getDayIndex(a.day) - getDayIndex(b.day);
@@ -43,9 +49,7 @@ function sortOfficeHours(arr) {
     });
 }
 
-
-
-// --- Rendering Functions ---
+// DISPLAY OFFICE HOURS
 function renderOfficeHours() {
     let profDayTimeSetHTML = '';
     const sorted = sortOfficeHours(user.officeHours);
@@ -65,13 +69,9 @@ function renderOfficeHours() {
         });
     }
     document.getElementById('prof-sec-office-hours-container').innerHTML = profDayTimeSetHTML;
-    // Update status text and color
-    const statusElem = document.querySelector('.prof-sec-status');
-    if (statusElem) {
-        statusElem.innerText = editingUser ? editingUser.status : user.status;
-        setProfSectionStatusColor();
-    }
 }
+
+// DISPLAY OFFICE HOURS IN EDITING PAGE
 
 function renderEditingPageOfficeHours() {
     let profDayTimeSetHTML = '';
@@ -80,7 +80,7 @@ function renderEditingPageOfficeHours() {
     const statusDropdown = document.getElementById('status-options');
     if (statusDropdown) {
         // Map status to value
-        let statusValue = 'available';
+        let statusValue = 'Not Set';
         if (editingUser.status === 'Available') statusValue = 'available';
         else if (editingUser.status === 'In a Meeting') statusValue = 'in-a-meeting';
         else if (editingUser.status === 'In Class') statusValue = 'in-class';
@@ -88,6 +88,7 @@ function renderEditingPageOfficeHours() {
         else if (editingUser.status === 'Busy') statusValue = 'busy';
         statusDropdown.value = statusValue;
     }
+
     const sorted = sortOfficeHours(editingUser.officeHours);
     if (sorted.length === 0) {
         profDayTimeSetHTML = '<p class="empty-office-hours">No office hours set.</p>';
@@ -107,9 +108,9 @@ function renderEditingPageOfficeHours() {
     }
     document.getElementById('prof-sec-edit-office-hours').innerHTML = profDayTimeSetHTML;
 
-    // Add delete listeners (support icon click and parent)
-    document.querySelectorAll('.js-office-hour-delete-text').forEach(btn => {
-        btn.addEventListener('click', (e) => {
+    // DELETE OFFICE HOUR WHEN CLICKED
+    document.querySelectorAll('.js-office-hour-delete-text').forEach(deleteButton => {
+        deleteButton.addEventListener('click', (e) => {
             let target = e.target;
             // If the icon is clicked, get parent
             if (target.tagName === 'I') {
@@ -126,36 +127,35 @@ function renderEditingPageOfficeHours() {
         });
     });
 }
-// Status dropdown change handler (only update editingUser, not UI)
+
+// EDIT BUTTON; OPENS EDITING PAGE
+document.getElementById('edit-btn').addEventListener('click', () => {
+    editingUser = JSON.parse(JSON.stringify(user));
+    document.getElementById('prof-sec-edit').style.display = 'flex';
+    renderEditingPageOfficeHours();
+});
+
+// SELECT STATUS; ONLY UPDATE WHEN UPDATE BUTTON IS CLICKED
 document.getElementById('status-options').addEventListener('change', (e) => {
     if (!editingUser) return;
     const value = e.target.value;
-    let statusText = 'Available';
+    let statusText = '';
     if (value === 'available') statusText = 'Available';
     else if (value === 'in-a-meeting') statusText = 'In a Meeting';
     else if (value === 'in-class') statusText = 'In Class';
     else if (value === 'away') statusText = 'Away';
     else if (value === 'busy') statusText = 'Busy';
     editingUser.status = statusText;
-    // Do not update the prof section UI here; only update on Update button click
 });
 
-// --- Event Listeners ---
-// Open editing page
-document.getElementById('edit-btn').addEventListener('click', () => {
-    editingUser = JSON.parse(JSON.stringify(user));
-    document.getElementById('prof-sec-edit').style.display = 'flex';
-    renderEditingPageOfficeHours();
-    setProfSectionStatusColor();
-});
-
-// Add office hour
+// ADD OFFICE HOUR
 document.getElementById('js-office-hour-add-text').addEventListener('click', () => {
     if (!editingUser) return;
     const daySelected = document.getElementById('add-office-hour-day');
     const timeFromSelected = document.getElementById('add-office-hour-from-time');
     const timeToSelected = document.getElementById('add-office-hour-to-time');
 
+    // Return if any field is empty
     if (daySelected.value === '' || timeFromSelected.value === '' || timeToSelected.value === '') {
         alert('Please fill out all fields before adding.');
         return;
@@ -174,20 +174,20 @@ document.getElementById('js-office-hour-add-text').addEventListener('click', () 
     renderEditingPageOfficeHours();
 });
 
-// Update changes
+// UPDATE BUTTON
 function updateChanges() {
     if (editingUser) {
         user.officeHours = JSON.parse(JSON.stringify(editingUser.officeHours));
         user.status = editingUser.status;
     }
     renderOfficeHours();
-    setProfSectionStatusColor();
     document.getElementById('prof-sec-edit').style.display = 'none';
     editingUser = null;
 }
+
 document.getElementById('update-btn').addEventListener('click', updateChanges);
 
-// Cancel editing
+// CANCEL EDITING BUTTON
 document.getElementById('cancel-btn').addEventListener('click', () => {
     document.getElementById('prof-sec-edit').style.display = 'none';
     editingUser = JSON.parse(JSON.stringify(user));
@@ -196,7 +196,6 @@ document.getElementById('cancel-btn').addEventListener('click', () => {
     document.getElementById('add-office-hour-to-time').value = '';
 });
 
-// --- Initial Render ---
+// RENDER
 renderOfficeHours();
 renderEditingPageOfficeHours();
-setProfSectionStatusColor();

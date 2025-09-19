@@ -27,6 +27,11 @@
 }
 
 body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  justify-content: space-between;
   background-color: var(--background);
 }
 
@@ -60,10 +65,13 @@ input:active {
   outline: none;
 }
 
-a, button {
+a {
   cursor: pointer;
 }
 
+select {
+  padding-left: 10px;
+}
 
 /* SINGLE STYLE */
 
@@ -73,10 +81,4 @@ a, button {
 
 .pointer {
   cursor: pointer;
-}
-
-/* SELECT ELEMENTS */
-
-select {
-  padding-left: 10px;
 }

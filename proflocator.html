@@ -14,15 +14,11 @@
     <link rel="stylesheet" href="/styles/general.css">
     <link rel="stylesheet" href="/styles/buttons.css">
     <link rel="stylesheet" href="/styles/main.css">
-    <link rel="stylesheet" href="/styles/prof-section.css">
-    <link rel="stylesheet" href="/styles/prof-card.css">
-    <link rel="stylesheet" href="/styles/layout.css">
-    <link rel="stylesheet" href="/styles/info-section.css">
+    <link rel="stylesheet" href="/styles/prof_section.css">
+    <link rel="stylesheet" href="/styles/prof_cards.css">
+    <link rel="stylesheet" href="/styles/prof_info.css">
 
     <script src="https://kit.fontawesome.com/73ca3cfc89.js" crossorigin="anonymous"></script>
-
-    <!--    TEMP CSS    -->
-    <link rel="stylesheet" href="/styles/temp.css">
 </head>
 <body>
     <!--MAIN WEB-->
@@ -67,12 +63,14 @@
                     <span id="greeting"></span>,
                 </p>
                 <p id="prof">
-                    Prof. <span id="prof-user-name" class="bold"></span>
+                    Prof. 
+                    <span id="prof-user-name" class="bold"></span>
                 </p>
             </div>
+                
             <p class="prof-sec-status">
                 Status: 
-                <span class="prof-status bold">Busy</span>
+                <span id="prof-sec-status" class="prof-status status bold"></span>
             </p>
 
             <p>Office hours:</p>
@@ -82,7 +80,6 @@
             </div>
             <button id="edit-btn" class="btn-style-1">Edit</button>
         </div>
-
 
         <div id="prof-sec-edit">
             <p id="prof-sec-edit-title">Edit Availability</p>
@@ -122,7 +119,6 @@
                 <button id="update-btn" class="btn-style-1">Update</button>
             </div>
         </div>
-        
     </section>
 
     <!--SHOWS WHETHER THE USER IS A STUDENT OR A PROFESSOR-->
@@ -174,12 +170,12 @@
     <!--SCIPTS-->
     <script src="/scripts/temp.js"></script>
     <script type="module" src="/scripts/proflocator.js"></script>
+    <script type="module" src="/scripts/search-component.js"></script>
 
     <!--PAGE INTERACTIVITY-->
-    <script src="/scripts/search-component.js"></script>
-    <script type="module" src="/scripts/prof-card.js"></script>
-    <script type="module" src="/scripts/prof-section.js"></script>
-    <script type="module" src="/scripts/show-profile.js"></script>
+    <script type="module" src="/scripts/prof_cards.js"></script>
+    <script type="module" src="/scripts/prof_section.js"></script>
+    <script type="module" src="/scripts/prof_info.js"></script>
     
 </body>
 </html>

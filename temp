@@ -6,4 +6,6 @@ STATUS
 - Busy
 - Not Set
 
-
+if current status is all => display all prof cards;
+if ... is Available => hide all cards exept for available cards;
+...

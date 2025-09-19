@@ -3,6 +3,8 @@
 #info-page {
     display: none; 
     flex-direction: column;
+    min-width: 400px;
+    flex: 1;
     border-radius: 20px;
     background-color: white;
     box-shadow: var(--shadow);
@@ -34,7 +36,7 @@
     width: 100%;
 }
 
-.info-section-display-pic {
+#info-section-display-pic {
     align-self: center;
     border: none;
     background-color: white;
@@ -51,11 +53,10 @@
     font-weight: bold;
 }
 
-.info-section-status {
+#info-section-status {
     text-align: center;
     margin-top: -4px;
     font-weight: 600;
-    color: var(--available);
     font-weight: bold;
 }
 

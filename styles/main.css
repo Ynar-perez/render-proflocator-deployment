@@ -12,8 +12,7 @@ header {
     color: white;
     padding: 0 2%;
     font-size: 15px;
-    z-index: 1000;
-    
+    z-index: 1000;  
 }
 
 #header-left-div, #header-middle-div, #header-right-div {
@@ -139,8 +138,28 @@ header {
     cursor: pointer;
 }
 
+/* MAIN WEB */
+
+#student-section {
+    display: flex;
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 100px 6% 30px 6%;
+    column-gap: 2%;
+}
+
 /* FOOTER */
+
 footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-height: 40px;
+    min-height: 40px;
     color: white;
     background-color: var(--webColor1);
 }

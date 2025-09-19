@@ -1,5 +1,5 @@
 #prof-sec {
-    display: flex;
+    display: none;
     flex-direction: row;
     width: 100%;
     justify-content: center;
@@ -17,6 +17,10 @@
     border-radius: 20px;
     height: auto;
     box-shadow: var(--shadow);
+}
+
+#prof-name-greeting {
+    width: 100%;
 }
 
 #prof-name-greeting p, #prof-name-greeting span {
@@ -46,7 +50,6 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-
 }
 
 .day {
@@ -155,7 +158,3 @@
 #prof-sec-edit-btn-container button {
     width: 100%;
 }
-
-
-
-

@@ -1,4 +1,5 @@
 import { profData } from '../data/prof.js';
+import { changeInfoSectionStatusColor } from './utils/color.js';
 
 // Get the grid containing professor cards
 const profCardGrid = document.getElementById('prof-card-grid');
@@ -41,9 +42,9 @@ profCardGrid.addEventListener('click', (event) => {
         // Generate info section HTML
         const profInfoContentsHTML = `
             <div class="info-section">
-                <img src="${professorDetails.pImg}" class="info-section-display-pic">
+                <img src="${professorDetails.pImg}" id="info-section-display-pic">
                 <p class="info-section-name">Prof. ${professorDetails.pName}</p>
-                <p class="info-section-status">${professorDetails.status}</p>
+                <p id="info-section-status">${professorDetails.status}</p>
                 <!--DEPARTMENT-->
                 <div class="x-div">
                     <div class="icon-container">
@@ -86,7 +87,10 @@ profCardGrid.addEventListener('click', (event) => {
 
         document.getElementById('js-generated-html-info-container').innerHTML = profInfoContentsHTML;
     }
+    
+    changeInfoSectionStatusColor();
 });
+
 
 // Close button for info page
 const closeButtonElement = document.getElementById('info-section-close-btn');

@@ -1,3 +1,4 @@
+// LIVE TIME AND DATE
 export function updateLiveTime() {
   const now = new Date();
   
@@ -29,7 +30,6 @@ export function updateLiveTime() {
 }
 
 // GREETINGS
-
 export function greetings() {
   const greetingSpan = document.getElementById('greeting');
   const currentHour = new Date().getHours();
@@ -44,7 +44,6 @@ export function greetings() {
 }
 
 // 12-HOURS TIME FORMATTER
-
 export function convertTo12HourFormat(time24) {
   const [hours, minutes] = time24.split(':');
   let h = parseInt(hours, 10);
@@ -52,5 +51,11 @@ export function convertTo12HourFormat(time24) {
   h = h % 12;
   h = h === 0 ? 12 : h;
   return `${h}:${minutes} ${ampm}`;
+}
+
+// GET INDEX OF DAY
+export function getDayIndex(day) {
+    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    return days.indexOf(day);
 }
 
