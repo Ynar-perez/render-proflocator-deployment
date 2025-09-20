@@ -41,7 +41,7 @@ function displayProfSectionContents() {
     renderOfficeHours(); // OFFICE HOURS
 }
 
-// UNKNOWN FUNCTION
+// // Converts a time string (e.g., "7:00 AM" or "13:30") to total minutes since midnight for easy time comparison and sorting.
 function parseTime(timeStr) {
     let [time, modifier] = timeStr.split(' ');
     let [hours, minutes] = time.split(':').map(Number);
