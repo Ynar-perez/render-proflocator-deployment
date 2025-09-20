@@ -211,6 +211,11 @@ function updateChanges() {
     changeStatusTextColor();
 }
 
+function handleStatusUpdate(prof, newStatus) {
+    prof.status = newStatus;
+    prof.isManuallySet = true; // Set the flag to true
+}
+
 console.log(user);
 
 function updateUserProfCardStatus() {

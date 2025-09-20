@@ -14,6 +14,8 @@ export function changeStatusTextColor() {
         status.style.color = 'var(--busy)';
         } else if (status.innerText.trim() === 'Not Set') {
         status.style.color = 'var(--not-set)';
+        } else if (status.innerText.trim() === 'Off Duty') {
+        status.style.color = 'var(--off-duty)';
         }
     }
 }
@@ -80,5 +82,8 @@ export function changeInfoSectionStatusColor() {
         }
         else if (status.innerText === 'Not Set') {
             status.style.color = 'var(--not-set)';
+        }
+        else if (status.innerText === 'Off Duty') {
+            status.style.color = 'var(--off-duty)';
         }
 }

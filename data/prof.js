@@ -3,7 +3,7 @@ export const profData = [
     pName: 'Jasper Garcia',
     department: 'Computer and Informatics',
     email: 'jgarcia@ccc.edu.ph', 
-    status: 'Available',
+    status: '',
     pImg: '/media/jaspergarcia.jpg',
     officeHours: [
         {
@@ -25,7 +25,7 @@ export const profData = [
 }, {
     pName: 'Jocelyn Llanderal, MIT',
     department: 'Computer and Informatics',
-    email: 'jllanderal@ccc.edu.ph', 
+    email: 'jgllanderal@ccc.edu.ph', 
     status: 'In a Meeting',
     pImg: '/media/jocelynllanderal.jpg',
     officeHours: [

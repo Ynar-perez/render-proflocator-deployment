@@ -7,6 +7,7 @@
   --away: #ffc107;
   --busy: #dc3545;
   --not-set: #36454F;
+  --off-duty: #36454fb0;
   --black: rgb(35, 35, 35);
   --shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
 }

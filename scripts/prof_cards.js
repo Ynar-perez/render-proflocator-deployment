@@ -4,22 +4,40 @@ import { changeStatusTextColor } from './utils/color.js';
 // GENERATE HTML PROFCARD USING ARRAY profCard[]
 
 function generateProfCards() {
-    document.getElementById('prof-card-grid').innerHTML = null; // Clear existing cards
-
-    profData.forEach((prof) => {
+    profData.map((prof) => {
+        updateAllProfessorsStatus(profData);
         const html = `
-        <div class="prof-card">
-        <img class="prof-card-img" src="${prof.pImg}" alt="" width="100%">
-        <div class="prof-info-div">
-            <p class="prof-name">Prof. ${prof.pName}</p>
-            <p class="status">${prof.status}</p>
-        </div>
-        </div>
+            <div class="prof-card">
+            <img class="prof-card-img" src="${prof.pImg}" alt="" width="100%">
+            <div class="prof-info-div">
+                <p class="prof-name">Prof. ${prof.pName}</p>
+                <p class="status">${prof.status || 'Not Set'}</p>
+            </div>
+            </div>
         `;
         const placeProfCard = document.getElementById('prof-card-grid');
         placeProfCard.innerHTML += html;
     });
 }
+
+function updateAllProfessorsStatus(profData) {
+    const currentTime = new Date();
+    const currentHour = currentTime.getHours();
+    const currentDay = currentTime.getDay();
+    const currentMinutes = currentTime.getMinutes();
+
+    profData.forEach((prof) => {
+        // Condition 1: If it is Sunday OR the time is 5 PM or later
+        if (currentDay === 0 || currentHour >= 17 && currentHour < 7) {
+            prof.status = 'Off Duty';
+        } 
+        // Condition 2: If it's NOT Sunday AND the time is before 7 AM
+        else {
+            prof.status = 'Not Set';
+        }
+    });
+}
+
 
 generateProfCards();
 
