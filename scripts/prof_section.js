@@ -93,6 +93,22 @@ function renderOfficeHours() {
 document.getElementById('edit-btn').addEventListener('click', () => {
     editingUser = JSON.parse(JSON.stringify(user));
     document.getElementById('prof-sec-edit').style.display = 'flex';
+    // Clear values and remove placeholders from inputs
+    const daySelected = document.getElementById('add-office-hour-day');
+    const timeFromSelected = document.getElementById('add-office-hour-from-time');
+    const timeToSelected = document.getElementById('add-office-hour-to-time');
+    if (daySelected) {
+        daySelected.value = '';
+        daySelected.removeAttribute('placeholder');
+    }
+    if (timeFromSelected) {
+        timeFromSelected.value = '';
+        timeFromSelected.removeAttribute('placeholder');
+    }
+    if (timeToSelected) {
+        timeToSelected.value = '';
+        timeToSelected.removeAttribute('placeholder');
+    }
     renderEditingPageOfficeHours();
 });
 
@@ -210,13 +226,6 @@ function updateChanges() {
     updateUserProfCardStatus();
     changeStatusTextColor();
 }
-
-function handleStatusUpdate(prof, newStatus) {
-    prof.status = newStatus;
-    prof.isManuallySet = true; // Set the flag to true
-}
-
-console.log(user);
 
 function updateUserProfCardStatus() {
     document.querySelectorAll('.prof-card').forEach(card => {

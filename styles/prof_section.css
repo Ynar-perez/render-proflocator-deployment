@@ -108,11 +108,6 @@
     margin-left: 6px;
 }
 
-#rof-sec-edit-office-hours {
-    display: inherit;
-    width: 100%;   
-}
-
 .prof-sec-edit-office-hour {
     display: inherit;
     flex-direction: column;
@@ -120,7 +115,7 @@
 
 .prof-sec-edit-office-hour {
     display: grid;
-    grid-template-columns: 1fr 80px 20px 1fr 26px;
+    grid-template-columns: 120px 80px 20px 1fr 26px;
     margin-left: 20px;
 }
 
@@ -141,12 +136,18 @@
     cursor: pointer;
 }
 
-
 #add-office-hour {
     display: grid;
-    grid-template-columns: 70px auto 8px auto 26px;
+    grid-template-columns: 80px 110px 10px 110px 1fr;
     column-gap: 6px;
     margin-left: 20px;
+}
+
+#js-office-hour-add-text {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    width: 25px;
 }
 
 #prof-sec-edit-btn-container {

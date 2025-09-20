@@ -17,7 +17,7 @@ export const profData = [
             to: '10:00 AM'
         },
         {
-            day: 'Tuesday',
+            day: 'Wednesday',
             from: '1:00 PM',
             to: '3:00 PM'
         }
@@ -31,13 +31,13 @@ export const profData = [
     officeHours: [
         {
             day: 'Tuesday',
-            from: '9:00',
-            to: '11:00'
+            from: '9:00 AM',
+            to: '11:00 AM'
         },
         {
             day: 'Wednesday',
-            from: '8:00',
-            to: '10:00'
+            from: '8:00 AM',
+            to: '11:00 AM'
         }
     ]
 }, {
@@ -49,13 +49,13 @@ export const profData = [
     officeHours: [
         {
             day: 'Wednesday',
-            from: '9:00',
-            to: '11:00'
+            from: '9:00 AM',
+            to: '11:00 AM'
         },
         {
             day: 'Thursday',
-            from: '8:00',
-            to: '10:00'
+            from: '1:00 PM',
+            to: '3:00 PM'
         }
     ]
 }, {
@@ -63,17 +63,22 @@ export const profData = [
     department: 'Computer and Informatics',
     email: 'lmariquina@ccc.edu.ph', 
     status: 'In Class',
-    pImg: '/media/jaspergarcia.jpg',
+    pImg: '/media/placeholder.jpg',
     officeHours: [
         {
-            day: 'Thursday',
-            from: '9:00',
-            to: '11:00'
+            day: 'Wednesday',
+            from: '9:00 AM',
+            to: '1:00 PM'
         },
         {
             day: 'Friday',
-            from: '8:00',
-            to: '10:00'
+            from: '8:00 AM',
+            to: '10:00 AM',
+        },
+        {
+            day: 'Saturday',
+            from: '2:00 PM',
+            to: '5:00 PM'
         }
     ]
 }, {
@@ -81,17 +86,22 @@ export const profData = [
     department: 'Computer and Informatics',
     email: 'mabuyo@ccc.edu.ph', 
     status: 'Away', 
-    pImg: '/media/jaspergarcia.jpg',
+    pImg: '/media/placeholder.jpg',
     officeHours: [
         {
-            day: 'Friday',
-            from: '9:00',
-            to: '11:00'
+            day: 'Monday',
+            from: '1:00 PM',
+            to: '3:00 PM'
+        },
+        {
+            day: 'Wednesay',
+            from: '8:00 AM',
+            to: '10:00 AM',
         },
         {
             day: 'Saturday',
-            from: '8:00',
-            to: '10:00'
+            from: '8:00 AM',
+            to: '12:00 PM',
         }
     ]
 }, {
@@ -99,17 +109,27 @@ export const profData = [
     department: 'Computer and Informatics',
     email: 'nracelis@ccc.edu.ph', 
     status: 'Busy', 
-    pImg: '/media/jaspergarcia.jpg',
+    pImg: '/media/placeholder.jpg',
     officeHours: [
         {
             day: 'Monday',
-            from: '9:00',
-            to: '11:00'
+            from: '9:00 AM',
+            to: '11:00 AM'
         },
         {
-            day: 'Saturday',
-            from: '8:00',
-            to: '10:00'
+            day: 'Tuesday',
+            from: '9:00 AM',
+            to: '11:00 AM'
+        },
+        {
+            day: 'Thursday',
+            from: '1:00 PM',
+            to: '3:00 PM'
+        },
+        {
+            day: 'Friday',
+            from: '1:00 PM',
+            to: '3:00 PM'
         }
     ]
 }];
