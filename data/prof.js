@@ -4,7 +4,7 @@ export const profData = [
     department: 'Computer and Informatics',
     email: 'jgarcia@ccc.edu.ph', 
     status: 'Available',
-    pImg: '/media/jaspergarcia.jpg',
+    pImg: '/media/professors/jaspergarcia.jpg',
     officeHours: [
         {
             day: 'Monday',
@@ -27,7 +27,7 @@ export const profData = [
     department: 'Computer and Informatics',
     email: 'jgllanderal@ccc.edu.ph', 
     status: 'In a Meeting',
-    pImg: '/media/jocelynllanderal.jpg',
+    pImg: '/media/professors/jocelynllanderal.jpg',
     officeHours: [
         {
             day: 'Tuesday',
@@ -45,7 +45,7 @@ export const profData = [
     department: 'Computer and Informatics',
     email: 'jyuneza@ccc.edu.ph', 
     status: 'Not Set', 
-    pImg: '/media/junicoyuneza.jpg',
+    pImg: '/media/professors/junicoyuneza.jpg',
     officeHours: [
         {
             day: 'Wednesday',
@@ -63,7 +63,7 @@ export const profData = [
     department: 'Computer and Informatics',
     email: 'lmariquina@ccc.edu.ph', 
     status: 'In Class',
-    pImg: '/media/placeholder.jpg',
+    pImg: '/media/professors/placeholder.jpg',
     officeHours: [
         {
             day: 'Wednesday',
@@ -86,7 +86,7 @@ export const profData = [
     department: 'Computer and Informatics',
     email: 'mabuyo@ccc.edu.ph', 
     status: 'Away', 
-    pImg: '/media/placeholder.jpg',
+    pImg: '/media/professors/placeholder.jpg',
     officeHours: [
         {
             day: 'Monday',
@@ -109,7 +109,7 @@ export const profData = [
     department: 'Computer and Informatics',
     email: 'nracelis@ccc.edu.ph', 
     status: 'Busy', 
-    pImg: '/media/placeholder.jpg',
+    pImg: '/media/professors/placeholder.jpg',
     officeHours: [
         {
             day: 'Monday',

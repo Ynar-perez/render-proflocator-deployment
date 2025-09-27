@@ -94,11 +94,13 @@ profCardGrid.addEventListener('click', (event) => {
             changeInfoSectionStatusColor();
 
             // Style profCards
+
             const profCards = document.querySelectorAll('.prof-card');
             profCards.forEach(card => {
                 card.style.border = '4px solid transparent';
                 card.style.boxShadow = '0px 0px 10px rgba(0, 0, 0, 0.2)';
             });
+
             parentDiv.style.boxShadow = '0px 0px 10px blue';
 
         }

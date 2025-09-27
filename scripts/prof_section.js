@@ -223,6 +223,14 @@ function updateChanges() {
     const infoPage = document.getElementById('info-page');
     infoPage.style.display = 'none';
 
+    //  REMOVE BORDER HIGHLIGHT FROM CARD
+    const profCards = document.querySelectorAll('.prof-card');
+    profCards.forEach(card => {
+        card.style.border = '4px solid transparent';
+        card.style.boxShadow = '0px 0px 10px rgba(0, 0, 0, 0.2)';
+    });
+
+
     updateUserProfCardStatus();
     changeStatusTextColor();
 }
