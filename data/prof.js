@@ -3,7 +3,7 @@ export const profData = [
     pName: 'Jasper Garcia',
     department: 'Computer and Informatics',
     email: 'jgarcia@ccc.edu.ph', 
-    status: '',
+    status: 'Available',
     pImg: '/media/jaspergarcia.jpg',
     officeHours: [
         {

@@ -25,17 +25,7 @@ function updateAllProfessorsStatus(profData) {
     const currentHour = currentTime.getHours();
     const currentDay = currentTime.getDay();
     const currentMinutes = currentTime.getMinutes();
-
-    profData.forEach((prof) => {
-        // Condition 1: If it is Sunday OR the time is 5 PM or later
-        if (currentDay === 0 || currentHour >= 17 && currentHour < 7) {
-            prof.status = 'Off Duty';
-        } 
-        // Condition 2: If it's NOT Sunday AND the time is before 7 AM
-        else {
-            prof.status = 'Not Set';
-        }
-    });
+;
 }
 
 

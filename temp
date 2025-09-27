@@ -7,10 +7,7 @@ STATUS
 - Not Set
 - Off Duty
 
-if current status is all => display all prof cards;
-if ... is Available => hide all cards exept for available cards;
-...
-
 
 1. IDENTIFY THE USER
 2. GET THE USER DATA FROM ARRAY
+
