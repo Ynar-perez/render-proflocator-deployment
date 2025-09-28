@@ -1,37 +1,43 @@
-
-import { profData } from "../data/prof.js";
 import { greetings, convertTo12HourFormat, getDayIndex } from "./utils/time-date.js";
 import { changeStatusTextColor } from "./utils/color.js";
+import { currentUser } from "./proflocator.js";
+
 // --- Initialization ---
-
-displayProfSection();
-
-
 
 // USER DATA
 let user = '';
 let editingUser = null; // DUPLICATE COPY FOR EDITING
 
-// 1. DISPLAY PROF SECTION IF USER IS A PROFESSOR
-function displayProfSection() {
-    const typeOfAccount = document.getElementById('user-type');
-    if (typeOfAccount.innerText === 'PROFESSOR') {
-        document.getElementById('prof-sec').style.display = 'flex';
-        document.getElementById('student-section').style.paddingTop = '30px';
-    } else if (typeOfAccount.innerText === 'STUDENT') {
+initializeProfSection();
+
+async function initializeProfSection() {
+    // 1. Check if the current user is a professor. If not, hide the section and stop.
+    if (!currentUser || currentUser.role !== 'PROFESSOR') {
         document.getElementById('prof-sec').style.display = 'none';
+        return;
+    }
+
+    // If the user is a professor, make the section visible.
+    document.getElementById('prof-sec').style.display = 'flex';
+    document.getElementById('student-section').style.paddingTop = '30px';
+
+    // 2. IDENTIFY THE USER AND GET DATA
+    try {
+        const response = await fetch('http://localhost:3000/api/professors');
+        const profData = await response.json();
+        // Find the professor profile that matches the logged-in user's email
+        user = profData.find(prof => prof.email === currentUser.email);
+
+        if (!user) {
+            console.error("Could not find a professor profile for the logged-in user.");
+            return;
+        }
+        // 3. DISPLAY CONTENTS IN PROF SECTION USING THE DATA
+        displayProfSectionContents();
+    } catch (error) {
+        console.error("Failed to fetch professor data for section:", error);
     }
 }
-
-// 2. IDENTIFY THE USER AND GET DATA
-profData.forEach((prof) => {
-    if (prof.pName === document.getElementById('user-name').innerText) {
-        user = prof;
-    }
-});
-
-// 3. DISPLAY CONTENTS IN PROF SECTION USNIG THE DATA
-displayProfSectionContents();
 
 function displayProfSectionContents() {
     greetings(); // GREETING
@@ -253,6 +259,3 @@ document.getElementById('cancel-btn').addEventListener('click', () => {
     document.getElementById('add-office-hour-from-time').value = '';
     document.getElementById('add-office-hour-to-time').value = '';
 });
-
-
-

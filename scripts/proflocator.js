@@ -1,9 +1,30 @@
 import { updateLiveTime } from "./utils/time-date.js";
 
-// HEADER LIVE TIME AND DATE
+// --- USER SESSION INITIALIZATION ---
+function initializeUserSession() {
+	const userDataString = sessionStorage.getItem('loggedInUser');
+	if (!userDataString) {
+		// If no user is logged in, redirect to the login page
+		window.location.href = 'index.html';
+		return null; // Stop execution
+	}
 
-updateLiveTime();
-setInterval(updateLiveTime, 1000);
+	const user = JSON.parse(userDataString);
+
+	// Update the header with user's information
+	document.getElementById('user-name').innerText = user.fullName;
+	document.getElementById('user-type').innerText = user.role;
+
+	return user; // Return the user object for other scripts to use
+}
+
+export const currentUser = initializeUserSession();
+
+if (currentUser) {
+	// HEADER LIVE TIME AND DATE
+	updateLiveTime();
+	setInterval(updateLiveTime, 1000);
+}
 
 // DROPDOWN MENU
 const dropdownMenu = document.getElementById('dropdown-menu');

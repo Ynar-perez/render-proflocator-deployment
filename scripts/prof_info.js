@@ -1,4 +1,3 @@
-import { profData } from '../data/prof.js';
 import { changeInfoSectionStatusColor } from './utils/color.js';
 
 // Get the grid containing professor cards
@@ -10,7 +9,7 @@ function unhideInfoPage() {
     infoPage.style.display = 'flex';
 }
 
-profCardGrid.addEventListener('click', (event) => {
+profCardGrid.addEventListener('click', async (event) => {
     const clickedElement = event.target;
     if (
         clickedElement.classList.contains('prof-info-div') ||
@@ -18,12 +17,20 @@ profCardGrid.addEventListener('click', (event) => {
         clickedElement.classList.contains('prof-name') ||
         clickedElement.classList.contains('status')
     ) {
-        // Identify which professor card was clicked
         const parentDiv = clickedElement.closest('.prof-card');
+        // The professor's name is stored in a data attribute on the card
         const profName = parentDiv.querySelector('.prof-name').innerText.replace('Prof. ', '').trim();
 
-        // Get professor details from data
-        const professorDetails = profData.find(prof => prof.pName.trim() === profName);
+        // --- NEW: Fetch data from the server ---
+        let professorDetails;
+        try {
+            const response = await fetch('http://localhost:3000/api/professors');
+            const professors = await response.json();
+            professorDetails = professors.find(prof => prof.pName.trim() === profName);
+        } catch (error) {
+            console.error('Failed to fetch professor details:', error);
+            return; // Stop if the fetch fails
+        }
 
         unhideInfoPage();
         generateProfInfoContents();
