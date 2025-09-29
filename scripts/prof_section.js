@@ -41,9 +41,9 @@ async function initializeProfSection() {
 
 function displayProfSectionContents() {
     greetings(); // GREETING
-    document.getElementById('prof-user-name').innerHTML = user.pName; // NAME
-    displayProfStatus(); // STATUS
-    changeStatusTextColor();
+    document.getElementById('prof-user-name').innerHTML = user.fullName; // NAME
+    displayProfStatus(); // STATUS in the professor's own dashboard
+    changeStatusTextColor(); // This will now color all status texts on the page
     renderOfficeHours(); // OFFICE HOURS
 }
 
@@ -213,40 +213,93 @@ document.getElementById('js-office-hour-add-text').addEventListener('click', () 
     renderEditingPageOfficeHours();
 });
 
+// --- Dynamic Time Dropdown Logic ---
+// When a "From" time is selected, disable invalid "To" time options.
+const timeFromSelected = document.getElementById('add-office-hour-from-time');
+const timeToSelected = document.getElementById('add-office-hour-to-time');
+
+timeFromSelected.addEventListener('change', () => {
+    const fromTimeValue = timeFromSelected.value;
+
+    // If "from" time is not selected, enable all options in "to" time.
+    if (!fromTimeValue) {
+        for (const option of timeToSelected.options) {
+            option.disabled = false;
+        }
+        return;
+    }
+
+    let shouldResetToTime = false;
+
+    for (const option of timeToSelected.options) {
+        // Skip the disabled placeholder option
+        if (!option.value) continue;
+
+        // Disable the option if its time is less than or equal to the "from" time
+        option.disabled = option.value <= fromTimeValue;
+
+        // Check if the currently selected "to" time is now invalid
+        if (option.selected && option.disabled) {
+            shouldResetToTime = true;
+        }
+    }
+
+    // If the selected "to" time became invalid, reset the dropdown
+    if (shouldResetToTime) {
+        timeToSelected.value = '';
+    }
+});
+
 // UPDATE BUTTON
 document.getElementById('update-btn').addEventListener('click', updateChanges);
 
-function updateChanges() {
+async function updateChanges() {
     if (editingUser) {
-        user.officeHours = JSON.parse(JSON.stringify(editingUser.officeHours));
-        user.status = editingUser.status;
+        // --- Send updated data to the server ---
+        try {
+            const response = await fetch(`http://localhost:3000/api/professors/${editingUser.email}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    status: editingUser.status,
+                    officeHours: editingUser.officeHours,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to update profile on the server.');
+            }
+            console.log('✅ Profile updated successfully on the server.');
+
+            // --- Update local state and UI only AFTER successful save ---
+            user.officeHours = JSON.parse(JSON.stringify(editingUser.officeHours));
+            user.status = editingUser.status;
+
+            displayProfSectionContents();
+            document.getElementById('prof-sec-edit').style.display = 'none';
+            editingUser = null;
+
+            // HIDE INFO PAGE WHEN UPDATED
+            document.getElementById('info-page').style.display = 'none';
+
+            updateUserProfCardStatus();
+            // The color will be updated by the function below
+        } catch (error) {
+            console.error('❌ Error updating profile:', error);
+            alert('Could not save changes. Please try again.');
+        }
     }
-    displayProfSectionContents();
-    document.getElementById('prof-sec-edit').style.display = 'none';
-    editingUser = null;
-
-    // HIDE INFO PAGE WHEN UPDATED
-    const infoPage = document.getElementById('info-page');
-    infoPage.style.display = 'none';
-
-    //  REMOVE BORDER HIGHLIGHT FROM CARD
-    const profCards = document.querySelectorAll('.prof-card');
-    profCards.forEach(card => {
-        card.style.border = '4px solid transparent';
-        card.style.boxShadow = '0px 0px 10px rgba(0, 0, 0, 0.2)';
-    });
-
-
-    updateUserProfCardStatus();
-    changeStatusTextColor();
 }
 
 function updateUserProfCardStatus() {
     document.querySelectorAll('.prof-card').forEach(card => {
-        const name = card.querySelector('.prof-name').innerText.replace('Prof. ', '').trim();
-        if (name === user.pName) {
+        const cardEmail = card.dataset.email;
+        if (cardEmail === user.email) {
             const statusElement = card.querySelector('.status');
             statusElement.innerText = user.status;
+            changeStatusTextColor(); // Recolor all statuses after an update
         }
     })
 }

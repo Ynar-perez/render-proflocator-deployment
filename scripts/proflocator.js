@@ -48,6 +48,16 @@ document.addEventListener('click', function(event) {
 	}
 });
 
+// --- Logout Functionality ---
+const logoutButton = document.getElementById('logout-btn');
+if (logoutButton) {
+	logoutButton.addEventListener('click', (event) => {
+		event.preventDefault(); // Prevent the link from navigating immediately
+		sessionStorage.removeItem('loggedInUser'); // Clear the user session
+		window.location.href = 'index.html'; // Redirect to the login page
+	});
+}
+
 // HTML OFFICE HOUR INPUT ELEMENTS
 
 document.getElementById('add-office-hour').innerHTML = `

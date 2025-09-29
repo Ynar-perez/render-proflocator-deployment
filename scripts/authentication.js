@@ -7,6 +7,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const signupBtn = document.querySelector('#signup-div .signup-btn');
     const loginBtn = document.getElementById('js-login-btn');
 
+    // --- Modal Elements ---
+    const termsModal = document.getElementById('terms-modal');
+    const termsLink = document.querySelector('#terms-and-conditions a');
+    const closeModalBtn = document.getElementById('js-close-modal');
+
     // --- View Toggling ---
     linkToSignup.addEventListener('click', () => {
         loginDiv.style.display = 'none';
@@ -17,6 +22,24 @@ document.addEventListener('DOMContentLoaded', () => {
         signupDiv.style.display = 'none';
         loginDiv.style.display = 'flex';
     });
+
+    // --- Modal Logic ---
+    termsLink.addEventListener('click', (event) => {
+        event.preventDefault(); // Prevent the link from trying to navigate
+        termsModal.style.display = 'flex';
+    });
+
+    closeModalBtn.addEventListener('click', () => {
+        termsModal.style.display = 'none';
+    });
+
+    // Close modal if user clicks outside of the content
+    window.addEventListener('click', (event) => {
+        if (event.target === termsModal) {
+            termsModal.style.display = 'none';
+        }
+    });
+
 
     // --- Sign-Up Logic ---
     signupBtn.addEventListener('click', async (event) => {
@@ -33,6 +56,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Basic Validation
         if (!firstName || !lastName || !email || !password || !confirmPassword) {
             alert('Please fill out all required fields.');
+            return;
+        }
+        if (!email.endsWith('@ccc.edu.ph')) {
+            alert('Please use a valid CCC email address (e.g., yourname@ccc.edu.ph).');
             return;
         }
         if (password !== confirmPassword) {

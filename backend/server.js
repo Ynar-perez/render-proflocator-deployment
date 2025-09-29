@@ -29,12 +29,12 @@ async function run() {
     console.log("✅ Successfully connected to MongoDB Atlas!");
 
     const database = client.db("profLocatorDB");
-    const professorsCollection = database.collection("professors");
     const usersCollection = database.collection("users");
 
     // API Endpoint to get all professors
     app.get('/api/professors', async (req, res) => {
-      const professors = await professorsCollection.find({}).toArray();
+      // Find all documents in the 'users' collection with the role 'PROFESSOR'
+      const professors = await usersCollection.find({ role: 'PROFESSOR' }).toArray();
       res.json(professors);
     });
 
@@ -71,6 +71,11 @@ async function run() {
         return res.status(400).json({ message: 'All fields are required.' });
       }
 
+      // Validate email domain
+      if (!email.endsWith('@ccc.edu.ph')) {
+        return res.status(400).json({ message: 'Only CCC email addresses (@ccc.edu.ph) are allowed.' });
+      }
+
       // Check if user already exists
       const existingUser = await usersCollection.findOne({ email });
       if (existingUser) {
@@ -92,6 +97,36 @@ async function run() {
       // Insert the new user into the database
       await usersCollection.insertOne(newUser);
       res.status(201).json({ message: 'User created successfully!' });
+    });
+
+    // API Endpoint to update a professor's details (status, office hours, etc.)
+    app.put('/api/professors/:email', async (req, res) => {
+      const { email } = req.params;
+      const { status, officeHours } = req.body;
+
+      // Ensure there's something to update
+      if (status === undefined && officeHours === undefined) {
+        return res.status(400).json({ message: 'No update data provided.' });
+      }
+
+      try {
+        const updatePayload = {};
+        if (status !== undefined) updatePayload.status = status;
+        if (officeHours !== undefined) updatePayload.officeHours = officeHours;
+
+        const result = await usersCollection.updateOne(
+          { email: email, role: 'PROFESSOR' },
+          { $set: updatePayload }
+        );
+
+        if (result.matchedCount === 0) {
+          return res.status(404).json({ message: 'Professor not found.' });
+        }
+
+        res.json({ message: 'Profile updated successfully.' });
+      } catch (error) {
+        res.status(500).json({ message: 'Error updating profile.', error: error });
+      }
     });
 
     app.listen(port, () => {

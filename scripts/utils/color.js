@@ -20,35 +20,35 @@ export function changeStatusTextColor() {
     }
 }
 
-export function changeStatusBgColor(filter, showButtonElement, currentStatus) {
-    if (filter === 'All') {
+export function changeStatusBgColor(currentStatus, showButtonElement) {
+    if (currentStatus === 'All') {
         showButtonElement.innerText = 'Available';
         showButtonElement.style.backgroundColor = 'var(--available)';
-        return currentStatus = 'Available';
-    } else if (filter === 'Available') {
+        return 'Available';
+    } else if (currentStatus === 'Available') {
         showButtonElement.innerText = 'In a Meeting';
         showButtonElement.style.backgroundColor = 'var(--in-a-meeting)';
-        return currentStatus = 'In a Meeting';
-    } else if (filter === 'In a Meeting') {
+        return 'In a Meeting';
+    } else if (currentStatus === 'In a Meeting') {
         showButtonElement.innerText = 'In Class';
         showButtonElement.style.backgroundColor = 'var(--in-class)';
-        return currentStatus = 'In Class';
-    } else if (filter === 'In Class') {
+        return 'In Class';
+    } else if (currentStatus === 'In Class') {
         showButtonElement.innerText = 'Away';
         showButtonElement.style.backgroundColor = 'var(--away)';
-        return currentStatus = 'Away';
-    } else if (filter === 'Away') {
+        return 'Away';
+    } else if (currentStatus === 'Away') {
         showButtonElement.innerText = 'Busy';
         showButtonElement.style.backgroundColor = 'var(--busy)';
-        return currentStatus = 'Busy';
-    } else if (filter === 'Busy') {
+        return 'Busy';
+    } else if (currentStatus === 'Busy') {
         showButtonElement.innerText = 'Not Set';
         showButtonElement.style.backgroundColor = 'var(--not-set)';
-        return currentStatus = 'Not Set';
-    } else if (filter === 'Not Set') {
+        return 'Not Set';
+    } else if (currentStatus === 'Not Set') {
         showButtonElement.innerText = 'All';
         showButtonElement.style.backgroundColor = 'var(--webColor1)';
-        return currentStatus = 'All';
+        return 'All';
     }
 }
 
