@@ -46,6 +46,13 @@
     </header>
 
     <div id="dropdown-menu">
+        <a href="account.html" class="dropdown-option" id="view-account-btn">
+            <div class="dropdown-icon-container">
+                <i class="fa-solid fa-circle-user"></i>
+            </div>
+            <p class="dropdown-option-label">View Account</p>
+        </a>
+
         <a href="index.html" class="dropdown-option" id="logout-btn">
             <div class="dropdown-icon-container">
                 <i class="fa-solid fa-right-from-bracket"></i>
@@ -54,8 +61,7 @@
         </a>
     </div>
 
-    <!--SHOWS WHEN THE USER IS A PROFESSOR | PROFESSOR ONLY SECTION-->
-
+    <!--SHOWS WHEN THE USER IS A PROFESSOR | PROFESSOR PRIVATE SECTION-->
     <section id="prof-sec">
         <div id="prof-sec-details">
             <div id="prof-name-greeting">
@@ -68,9 +74,14 @@
                 </p>
             </div>
                 
-            <p class="prof-sec-status bold">
+            <p class="prof-sec-status">
                 Status: 
                 <span id="prof-sec-status" class="prof-status status bold"></span>
+            </p>
+
+            <p class="prof-sec-location">
+                Location: 
+                <span id="prof-sec-location" class="bold"></span>
             </p>
 
             <p class="bold">Office hours:</p>
@@ -92,6 +103,24 @@
                     <option value="away">Away</option>
                     <option value="busy">Busy</option>
                 </select>
+            </div>
+
+            <div id="add-location-container">
+                <span class="bold">Location:</span>
+                <div>
+                    <select name="building" id="building-options" class="dropdown">
+                        <option value="Admin Building">Admin Building</option>
+                        <option value="Rizal Building">Rizal Building</option>
+                        <option value="JMC Building">JMC Building</option>
+                    </select>
+
+                    <select name="room" id="room-options" class="dropdown">
+                        <option value="Faculty Room">Faculty Room</option>
+                        <option value="Room 101">Room 101</option>
+                        <option value="Room 102">Room 102</option>
+                        <option value="Room 103">Room 103</option>  
+                    </select>
+                </div>
             </div>
 
             <p class="bold">Office Hours:</p>
@@ -146,8 +175,6 @@
             <div id="js-generated-html-info-container">
                 <!--JS WILL GENERATE THESE-->
             </div>
-
-            <!--END HERE-->
         </div>
     </section>
 

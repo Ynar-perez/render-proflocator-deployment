@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Account - ProfLocator</title>
+    <link rel="icon" href="/media/logo/proflocator-icon-modified.png">
+
+    <!--    GOOGLE FONTS    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+    
+    <!--    CSS LINKS    -->
+    <!-- Reusing styles from your other pages for consistency -->
+    <link rel="stylesheet" href="/styles/general.css">
+    <link rel="stylesheet" href="/styles/buttons.css">
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/styles/account.css">
+
+    <script src="https://kit.fontawesome.com/73ca3cfc89.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header>
+        <div id="header-left-div">
+            <img src="/media/logo/ccc.png" alt="ccc-logo" width="50px">
+            <p id="title">ProfLocator | Rizal Faculty</p>
+        </div>
+
+        <div class="time-container" id="header-middle-div">
+            <span id="live-time"></span>
+        </div>
+
+        <div id="header-right-div">
+            <div id="user-info-div">
+                <p id="user-name"></p>
+                <p id="user-type"></p>
+            </div>
+            <button id="profile-img-btn" onclick="showDropdown()">
+                <img src="/media/professors/placeholder.jpg" alt="P" width="20px" height="20px" id="profile-img">
+            </button>
+        </div>
+    </header>
+
+    <div id="dropdown-menu">
+        <a href="account.html" class="dropdown-option" id="view-account-btn">
+            <div class="dropdown-icon-container">
+                <i class="fa-solid fa-circle-user"></i>
+            </div>
+            <p class="dropdown-option-label">View Account</p>
+        </a>
+
+        <a href="index.html" class="dropdown-option" id="logout-btn">
+            <div class="dropdown-icon-container">
+                <i class="fa-solid fa-right-from-bracket"></i>
+            </div>
+            <p class="dropdown-option-label">Log out</p>
+        </a>
+    </div>
+
+    <main id="account-main">
+        <section id="account-information">
+            <p class="section-title">My Account</p>
+        </section>
+    </main>
+            
+    <footer>
+        <p>Copyright © 2025 Group 30. All Rights Reserved.</p>
+    </footer>
+
+    <!--SCRIPTS-->
+    <script type="module" src="/scripts/proflocator.js"></script> <!-- For header/dropdown logic -->
+    <script type="module" src="/scripts/account.js"></script>
+</body>
+</html>

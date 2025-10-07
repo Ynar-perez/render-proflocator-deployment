@@ -20,6 +20,10 @@ header {
     flex-direction: row;
     align-items: center;
     height: inherit;
+
+        white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #header-left-div {
@@ -40,9 +44,10 @@ header {
 }
 
 #header-middle-div {
-    flex: 2;
+    flex: 1;
     justify-content: center;
     font-weight: bold;
+
 }   
 
 #header-right-div {
@@ -94,25 +99,27 @@ header {
 /* DROPDOWN MENU */
 
 #dropdown-menu {
-    width: 140px;
+    width: 160px;
     height: auto;
     border: none;
 
     display: none;
     flex-direction: column;
     position: fixed;
-    margin: 80px 30px 0 0;
+    margin: 76px 30px 0 0;
     right: 0;
     
     background-color: white;
     border-radius: 8px;
+    padding: 6px 0;
+    border: 1px solid rgb(231, 231, 231);
 }
 
 .dropdown-option {
     display: flex;
     flex-direction: row;
     align-items: center;
-    width: 100%;
+    width: auto;
     height: 30px;
     cursor: pointer;
 }
@@ -121,21 +128,26 @@ header {
     background-color: rgb(228, 228, 228);
 }
 
-#logout-btn:hover {
-    border-radius: 8px;
-}
-
 .dropdown-icon-container {
     height: 100%;
     aspect-ratio: 1/1;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0 4px;
+    margin: 0 4px 0 10px;
 }
 
+.dropdown-icon-container i {
+    color: rgb(94, 94, 94);
+ }
+
 .dropdown-option-label {
+    color: rgb(94, 94, 94);
+    font-size: 14px;
+    font-weight: 600;
     cursor: pointer;
+    text-wrap: nowrap;
+    width: auto;
 }
 
 /* MAIN WEB */

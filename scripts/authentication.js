@@ -7,12 +7,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const signupBtn = document.querySelector('#signup-div .signup-btn');
     const loginBtn = document.getElementById('js-login-btn');
 
-    // --- Modal Elements ---
     const termsModal = document.getElementById('terms-modal');
     const termsLink = document.querySelector('#terms-and-conditions a');
     const closeModalBtn = document.getElementById('js-close-modal');
 
-    // --- View Toggling ---
+    // SIGNIN SIGNUP TOGGLE
     linkToSignup.addEventListener('click', () => {
         loginDiv.style.display = 'none';
         signupDiv.style.display = 'flex';
@@ -23,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
         loginDiv.style.display = 'flex';
     });
 
-    // --- Modal Logic ---
+    // MODAL
     termsLink.addEventListener('click', (event) => {
         event.preventDefault(); // Prevent the link from trying to navigate
         termsModal.style.display = 'flex';
@@ -33,7 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
         termsModal.style.display = 'none';
     });
 
-    // Close modal if user clicks outside of the content
     window.addEventListener('click', (event) => {
         if (event.target === termsModal) {
             termsModal.style.display = 'none';
@@ -41,11 +39,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    // --- Sign-Up Logic ---
+    // SIGNUP
     signupBtn.addEventListener('click', async (event) => {
         event.preventDefault(); // Prevent form from submitting the default way
 
-        // Get form data
         const firstName = document.getElementById('signup-firstname').value;
         const lastName = document.getElementById('signup-lastname').value;
         const email = document.getElementById('signup-email').value;
@@ -53,7 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const confirmPassword = document.getElementById('signup-confirm-password').value;
         const termsChecked = signupDiv.querySelector('#checkbox').checked;
 
-        // Basic Validation
         if (!firstName || !lastName || !email || !password || !confirmPassword) {
             alert('Please fill out all required fields.');
             return;
@@ -88,11 +84,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (response.ok) {
                 alert(result.message);
-                // Switch to login view after successful signup
                 signupDiv.style.display = 'none';
                 loginDiv.style.display = 'flex';
             } else {
-                // Show error message from server
                 alert(`Error: ${result.message}`);
             }
         } catch (error) {
@@ -101,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- Login Logic ---
+    // LOGIN 
     loginBtn.addEventListener('click', async (event) => {
         event.preventDefault();
 

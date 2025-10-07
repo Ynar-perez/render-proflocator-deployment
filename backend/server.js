@@ -3,6 +3,7 @@ import cors from 'cors';
 import { MongoClient } from 'mongodb';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
+import cron from 'node-cron';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -30,6 +31,27 @@ async function run() {
 
     const database = client.db("profLocatorDB");
     const usersCollection = database.collection("users");
+
+    // --- Daily Reset Scheduled Job ---
+    // This schedule runs at 5:01 PM every day.
+    // It resets the status and location for all professors.
+    // For testing, use '* * * * *' to run every minute
+    cron.schedule('1 17 * * *', async () => { // Reverted to 5:01 PM
+      console.log('🕒 Running daily reset job for professors at 5:01 PM...');
+      try {
+        const result = await usersCollection.updateMany(
+          { role: 'PROFESSOR' },
+          { $set: { status: 'Not Set', location: { Building: 'Rizal Building', Room: 'Faculty Room' } } }
+        );
+        console.log(`✅ Daily reset complete. Updated ${result.modifiedCount} professor profiles.`);
+      } catch (error) {
+        console.error('❌ Error during daily reset job:', error);
+      }
+    }, {
+      scheduled: true,
+      timezone: "Asia/Manila" // Set to your local timezone
+    });
+
 
     // API Endpoint to get all professors
     app.get('/api/professors', async (req, res) => {
@@ -102,10 +124,10 @@ async function run() {
     // API Endpoint to update a professor's details (status, office hours, etc.)
     app.put('/api/professors/:email', async (req, res) => {
       const { email } = req.params;
-      const { status, officeHours } = req.body;
+      const { status, officeHours, location } = req.body;
 
       // Ensure there's something to update
-      if (status === undefined && officeHours === undefined) {
+      if (status === undefined && officeHours === undefined && location === undefined) {
         return res.status(400).json({ message: 'No update data provided.' });
       }
 
@@ -113,6 +135,7 @@ async function run() {
         const updatePayload = {};
         if (status !== undefined) updatePayload.status = status;
         if (officeHours !== undefined) updatePayload.officeHours = officeHours;
+        if (location !== undefined) updatePayload.location = location;
 
         const result = await usersCollection.updateOne(
           { email: email, role: 'PROFESSOR' },

@@ -31,18 +31,16 @@ function applyFilters() {
 
 // --- Event Listeners ---
 
-// Filter Button
+// FILTER BUTTON
 document.getElementById('filter-btn').addEventListener('click', () => {
     const showButtonElement = document.getElementById('filter-btn');
-    // Update the global status filter state and then apply all filters.
     currentStatusFilter = changeStatusBgColor(currentStatusFilter, showButtonElement);
     applyFilters();
 });
 
-// Search Bar
+// SEARCH BAR
 const searchBar = document.getElementById('search-bar');
 searchBar.addEventListener('input', function() {
-    // Update the global search query state and then apply all filters.
     currentSearchQuery = searchBar.value.trim().toLowerCase();
     applyFilters();
 });

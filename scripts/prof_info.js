@@ -1,12 +1,81 @@
 import { changeInfoSectionStatusColor } from './utils/color.js';
+import { getProfessors } from './data-store.js';
+import { sortOfficeHours } from './prof_section.js';
 
-// Get the grid containing professor cards
 const profCardGrid = document.getElementById('prof-card-grid');
 
 function unhideInfoPage() {
-    // Show the info section
     const infoPage = document.getElementById('info-page');
     infoPage.style.display = 'flex';
+}
+
+function generateProfInfoContents(professorDetails) {
+    let profDayTimeSetHTML = '';
+
+    const sortedOfficeHours = sortOfficeHours(professorDetails.officeHours || []);
+
+    if (sortedOfficeHours.length === 0) {
+        profDayTimeSetHTML = '<p class="empty-office-hours">No office hours set.</p>';
+    } else {
+        sortedOfficeHours.forEach((set) => {
+            profDayTimeSetHTML += `
+                <div class="day-time">
+                    <p class="day">${set.day}:</p>
+                    <p class="time">${set.from}</p>
+                    <p class="to">-</p>
+                    <p class="time-until">${set.to}</p>
+                </div>
+            `;
+        });
+    }
+
+    const profInfoContentsHTML = `
+        <div class="info-section">
+            <img src="${professorDetails.pImg}" id="info-section-display-pic">
+            <p class="info-section-name">Prof. ${professorDetails.fullName}</p>
+            <p id="info-section-status" class="status">${professorDetails.status || 'Not Set'}</p>
+            <!--DEPARTMENT-->
+            <div class="x-div">
+                <div class="icon-container">
+                    <i class="fontawesome-icon fa-solid fa-school"></i>
+                </div>
+                <p>Department of 
+                    <span class="bold">${professorDetails.department}</span>
+                </p>
+            </div>
+
+
+            <!--CONSULTATION DETAILS-->
+            <p class="bold cons-details-title">Consultation Details:</p>
+            <div class="day-time-div">
+                ${profDayTimeSetHTML}
+            </div>
+            <!--OFFICE LOCATION-->
+            <div class="x-div">
+                <div class="icon-container">
+                    <i class="fa-solid fa-location-dot"></i>
+                </div>
+                <p>
+                    <span class="bold">${professorDetails.location?.Room || 'Not Set'}</span>
+                    at 
+                    <span class="bold">${professorDetails.location?.Building || ''}</span>
+                </p>
+            </div>
+            <!--EMAIL ADDRESS-->
+            <div class="x-div">
+                <div class="icon-container">
+                    <i class="fontawesome-icon fa-solid fa-at"></i>
+                </div>
+                <p class="bold pointer">
+                    ${professorDetails.email}
+                </p>
+            </div>
+        </div>
+    `;
+
+    document.getElementById('js-generated-html-info-container').innerHTML = profInfoContentsHTML;
+    
+    changeInfoSectionStatusColor();
 }
 
 profCardGrid.addEventListener('click', async (event) => {
@@ -15,99 +84,40 @@ profCardGrid.addEventListener('click', async (event) => {
 
     // If the click was not inside a professor card, do nothing.
     if (parentDiv) {
-        // Use the unique email from the data attribute for a reliable lookup
+        const allCards = profCardGrid.querySelectorAll('.prof-card');
+        allCards.forEach(card => {
+            card.classList.remove('active');
+        });
+
+        parentDiv.classList.add('active');
         const profEmail = parentDiv.dataset.email;
 
-        // --- Fetch data from the server ---
+        // FETCH DATA FROM SERVER
         let professorDetails;
         try {
-            const response = await fetch('http://localhost:3000/api/professors');
-            const professors = await response.json();
+            const professors = await getProfessors(); // Use the central data store
             professorDetails = professors.find(prof => prof.email === profEmail);
         } catch (error) {
-            console.error('Failed to fetch professor details:', error);
+            console.error('Failed to get professor details from data store:', error);
             return; // Stop if the fetch fails
         }
 
-        // If no professor was found (which shouldn't happen now), stop execution.
         if (!professorDetails) {
             console.error(`Could not find professor details for email: ${profEmail}`);
             return;
         }
 
         unhideInfoPage();
-        generateProfInfoContents();
-
-        function generateProfInfoContents() {
-            // Generate HTML for office hours
-            let profDayTimeSetHTML = '';
-
-            professorDetails.officeHours.forEach((set) => {
-                profDayTimeSetHTML += `
-                    <div class="day-time">
-                        <p class="day">${set.day}:</p>
-                        <p class="time">${set.from}</p>
-                        <p class="to">-</p>
-                        <p class="time-until">${set.to}</p>
-                    </div>
-                `;
-            });
-
-            // Generate full HTML for info section
-            const profInfoContentsHTML = `
-                <div class="info-section">
-                    <img src="${professorDetails.pImg}" id="info-section-display-pic">
-                    <p class="info-section-name">Prof. ${professorDetails.fullName}</p>
-                    <p id="info-section-status">${professorDetails.status}</p>
-                    <!--DEPARTMENT-->
-                    <div class="x-div">
-                        <div class="icon-container">
-                            <i class="fontawesome-icon fa-solid fa-school"></i>
-                        </div>
-                        <p>Department of 
-                            <span class="bold">${professorDetails.department}</span>
-                        </p>
-                    </div>
-
-
-                    <!--CONSULTATION DETAILS-->
-                    <p class="bold cons-details-title">Consultation Details:</p>
-                    <div class="day-time-div">
-                        ${profDayTimeSetHTML}
-                    </div>
-                    <!--OFFICE LOCATION-->
-                    <div class="x-div">
-                        <div class="icon-container">
-                            <i class="fontawesome-icon fa-solid fa-map-pin"></i>
-                        </div>
-                        <p>
-                            <span class="bold">Faculty Room</span>
-                            at 
-                            <span class="bold">Rizal Building</span>
-                        </p>
-                    </div>
-                    <!--EMAIL ADDRESS-->
-                    <div class="x-div">
-                        <div class="icon-container">
-                            <i class="fontawesome-icon fa-solid fa-at"></i>
-                        </div>
-                        <p class="bold pointer">
-                            ${professorDetails.email}
-                        </p>
-                    </div>
-                </div>
-            `;
-
-            // Insert generated HTML into info section
-            document.getElementById('js-generated-html-info-container').innerHTML = profInfoContentsHTML;
-            
-            changeInfoSectionStatusColor();
-        }
+        generateProfInfoContents(professorDetails);
     }
 });
 
-// Close button for info page
 const closeButtonElement = document.getElementById('info-section-close-btn');
 closeButtonElement.addEventListener('click', () => {
     document.getElementById('info-page').style.display = 'none';
+
+    const activeCard = profCardGrid.querySelector('.prof-card.active');
+    if (activeCard) {
+        activeCard.classList.remove('active');
+    }
 });

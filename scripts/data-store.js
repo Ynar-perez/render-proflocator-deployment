@@ -8,8 +8,11 @@ let hasFetched = false;
  * Fetches professor data from the API if it hasn't been fetched yet.
  * Returns the stored list of professors.
  */
-export async function getProfessors() {
-    if (!hasFetched) {
+export async function getProfessors(forceRefresh = false) {
+    // If we are not forcing a refresh and we have already fetched, return the cached data.
+    if (!forceRefresh && hasFetched) {
+        return professors;
+    }
         try {
             const response = await fetch('http://localhost:3000/api/professors');
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -19,6 +22,5 @@ export async function getProfessors() {
             console.error("❌ Could not fetch professors:", error);
             professors = []; // Return an empty array on error
         }
-    }
     return professors;
 }

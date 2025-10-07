@@ -2,6 +2,7 @@ import { greetings, convertTo12HourFormat, getDayIndex } from "./utils/time-date
 import { changeStatusTextColor } from "./utils/color.js";
 import { currentUser } from "./proflocator.js";
 
+import { getProfessors } from "./data-store.js";
 // --- Initialization ---
 
 // USER DATA
@@ -23,8 +24,7 @@ async function initializeProfSection() {
 
     // 2. IDENTIFY THE USER AND GET DATA
     try {
-        const response = await fetch('http://localhost:3000/api/professors');
-        const profData = await response.json();
+        const profData = await getProfessors(); // Use the central data store
         // Find the professor profile that matches the logged-in user's email
         user = profData.find(prof => prof.email === currentUser.email);
 
@@ -39,11 +39,28 @@ async function initializeProfSection() {
     }
 }
 
+export async function refreshProfSection() {
+    if (!currentUser || currentUser.role !== 'PROFESSOR') {
+        return; // Don't do anything if not a professor
+    }
+    try {
+        const profData = await getProfessors(); // Get latest data from the store
+        const updatedUser = profData.find(prof => prof.email === currentUser.email);
+        if (updatedUser) {
+            user = updatedUser; // Update the module's user object
+            displayProfSectionContents();
+        }
+    } catch (error) {
+        console.error("Failed to refresh professor section:", error);
+    }
+}
+
 function displayProfSectionContents() {
     greetings(); // GREETING
     document.getElementById('prof-user-name').innerHTML = user.fullName; // NAME
     displayProfStatus(); // STATUS in the professor's own dashboard
     changeStatusTextColor(); // This will now color all status texts on the page
+    displayProfLocation(); // LOCATION
     renderOfficeHours(); // OFFICE HOURS
 }
 
@@ -59,7 +76,7 @@ function parseTime(timeStr) {
 }
 
 // SORT OFFICE HOURS
-function sortOfficeHours(arr) {
+export function sortOfficeHours(arr) {
     return arr.slice().sort((a, b) => {
         const dayDiff = getDayIndex(a.day) - getDayIndex(b.day);
         if (dayDiff !== 0) return dayDiff;
@@ -71,6 +88,16 @@ function sortOfficeHours(arr) {
 function displayProfStatus() {
     const statusContainer = document.getElementById('prof-sec-status');
     statusContainer.innerHTML = user.status || 'Not Set';
+}
+
+// DISPLAY LOCATION
+function displayProfLocation() {
+    const locationContainer = document.getElementById('prof-sec-location');
+    if (user.location && user.location.Room && user.location.Building) {
+        locationContainer.innerHTML = `${user.location.Room} at ${user.location.Building}`;
+    } else {
+        locationContainer.innerHTML = 'Not Set';
+    }
 }
 
 // DISPLAY OFFICE HOURS
@@ -98,8 +125,12 @@ function renderOfficeHours() {
 // EDIT BUTTON; OPENS EDITING PAGE
 document.getElementById('edit-btn').addEventListener('click', () => {
     editingUser = JSON.parse(JSON.stringify(user));
+    const editButton = document.getElementById('edit-btn');
+
     document.getElementById('prof-sec-edit').style.display = 'flex';
-    // Clear values and remove placeholders from inputs
+    editButton.textContent = 'Editing...';
+    editButton.classList.add('editing-state');
+    editButton.disabled = true;
     const daySelected = document.getElementById('add-office-hour-day');
     const timeFromSelected = document.getElementById('add-office-hour-from-time');
     const timeToSelected = document.getElementById('add-office-hour-to-time');
@@ -134,6 +165,12 @@ function renderEditingPageOfficeHours() {
         else if (editingUser.status === 'Busy') statusValue = 'busy';
         statusDropdown.value = statusValue;
     }
+
+    // Set location dropdowns to current editingUser.location
+    const buildingDropdown = document.getElementById('building-options');
+    const roomDropdown = document.getElementById('room-options');
+    buildingDropdown.value = editingUser.location?.Building || 'Rizal Building';
+    roomDropdown.value = editingUser.location?.Room || 'Faculty';
 
     const sorted = sortOfficeHours(editingUser.officeHours);
     if (sorted.length === 0) {
@@ -187,6 +224,18 @@ document.getElementById('status-options').addEventListener('change', (e) => {
     editingUser.status = statusText;
 });
 
+// SELECT LOCATION; ONLY UPDATE WHEN UPDATE BUTTON IS CLICKED
+document.getElementById('building-options').addEventListener('change', (e) => {
+    if (!editingUser) return;
+    if (!editingUser.location) editingUser.location = { Building: '', Room: '' };
+    editingUser.location.Building = e.target.value;
+});
+document.getElementById('room-options').addEventListener('change', (e) => {
+    if (!editingUser) return;
+    if (!editingUser.location) editingUser.location = { Building: '', Room: '' };
+    editingUser.location.Room = e.target.value;
+});
+
 // ADD OFFICE HOUR
 document.getElementById('js-office-hour-add-text').addEventListener('click', () => {
     if (!editingUser) return;
@@ -221,7 +270,6 @@ const timeToSelected = document.getElementById('add-office-hour-to-time');
 timeFromSelected.addEventListener('change', () => {
     const fromTimeValue = timeFromSelected.value;
 
-    // If "from" time is not selected, enable all options in "to" time.
     if (!fromTimeValue) {
         for (const option of timeToSelected.options) {
             option.disabled = false;
@@ -232,19 +280,15 @@ timeFromSelected.addEventListener('change', () => {
     let shouldResetToTime = false;
 
     for (const option of timeToSelected.options) {
-        // Skip the disabled placeholder option
         if (!option.value) continue;
 
-        // Disable the option if its time is less than or equal to the "from" time
         option.disabled = option.value <= fromTimeValue;
 
-        // Check if the currently selected "to" time is now invalid
         if (option.selected && option.disabled) {
             shouldResetToTime = true;
         }
     }
 
-    // If the selected "to" time became invalid, reset the dropdown
     if (shouldResetToTime) {
         timeToSelected.value = '';
     }
@@ -264,6 +308,7 @@ async function updateChanges() {
                 },
                 body: JSON.stringify({
                     status: editingUser.status,
+                    location: editingUser.location,
                     officeHours: editingUser.officeHours,
                 }),
             });
@@ -276,13 +321,25 @@ async function updateChanges() {
             // --- Update local state and UI only AFTER successful save ---
             user.officeHours = JSON.parse(JSON.stringify(editingUser.officeHours));
             user.status = editingUser.status;
+            user.location = JSON.parse(JSON.stringify(editingUser.location));
 
             displayProfSectionContents();
             document.getElementById('prof-sec-edit').style.display = 'none';
+            const editButton = document.getElementById('edit-btn');
+            editButton.textContent = 'Edit';
+            editButton.classList.remove('editing-state');
+            editButton.disabled = false;
             editingUser = null;
 
             // HIDE INFO PAGE WHEN UPDATED
             document.getElementById('info-page').style.display = 'none';
+
+
+            // Remove 'active' class from the selected card to remove the highlight
+            const activeCard = document.querySelector('.prof-card.active');
+            if (activeCard) {
+                activeCard.classList.remove('active');
+            }
 
             updateUserProfCardStatus();
             // The color will be updated by the function below
@@ -307,7 +364,11 @@ function updateUserProfCardStatus() {
 // CANCEL EDITING BUTTON
 document.getElementById('cancel-btn').addEventListener('click', () => {
     document.getElementById('prof-sec-edit').style.display = 'none';
-    editingUser = JSON.parse(JSON.stringify(user));
+    const editButton = document.getElementById('edit-btn');
+    editButton.textContent = 'Edit';
+    editButton.classList.remove('editing-state');
+    editButton.disabled = false;
+    editingUser = null;
     document.getElementById('add-office-hour-day').value = '';
     document.getElementById('add-office-hour-from-time').value = '';
     document.getElementById('add-office-hour-to-time').value = '';

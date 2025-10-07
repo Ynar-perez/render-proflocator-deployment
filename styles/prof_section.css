@@ -31,6 +31,16 @@
     margin-top: -8px;
 }
 
+#edit-btn.editing-state {
+    background-color: transparent;
+    color: #888;
+    border-color: transparent;
+    cursor: default;
+    text-align: center;
+    opacity: 1;
+    font-style: italic;
+}
+
 #prof-sec-office-hours-container {
     width: 100%;
     height: auto;
@@ -92,15 +102,11 @@
     text-align: center;
 }
 
-#set-status-container {
+#set-status-container, #add-location-container {
     display: inherit;
     justify-content: space-between;
     height: auto;
     align-items: center;
-}
-
-#set-status-container select {
-    margin-bottom: -10px;
 }
 
 #status-options {

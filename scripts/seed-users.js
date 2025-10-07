@@ -16,14 +16,9 @@ async function seedUsers() {
     const database = client.db("profLocatorDB");
     const usersCollection = database.collection("users");
 
-    // Comment out or remove this line to make the script non-destructive
-    // await usersCollection.deleteMany({});
-    // console.log("🗑️  Deleted existing users.");
-
     // --- Define Sample Users ---
 
-    // --- Professor Users (now with profile data included) ---
-    const profPassword = await bcrypt.hash('password123', saltRounds);
+    const profPassword = await bcrypt.hash('jasper123', saltRounds);
     const professorUser = {
       email: 'jgarcia@ccc.edu.ph',
       password: profPassword,
@@ -32,6 +27,7 @@ async function seedUsers() {
       // --- Merged professor data ---
       department: 'Computer and Informatics',
       status: 'Available',
+      location: {Building: 'Rizal Building', Room: 'Faculty Room'},
       pImg: '/media/professors/jaspergarcia.jpg',
       officeHours: [
         { day: 'Monday', from: '8:00 AM', to: '11:00 AM' },
@@ -40,7 +36,7 @@ async function seedUsers() {
       ]
     };
 
-    const profPassword2 = await bcrypt.hash('anotherPassword456', saltRounds);
+    const profPassword2 = await bcrypt.hash('jocelyn123', saltRounds);
     const professorUser2 = {
       email: 'jgllanderal@ccc.edu.ph',
       password: profPassword2,
@@ -49,6 +45,7 @@ async function seedUsers() {
       // --- Merged professor data ---
       department: 'Computer and Informatics',
       status: 'In a Meeting',
+      location: {Building: 'Rizal Building', Room: 'Faculty Room'},
       pImg: '/media/professors/jocelynllanderal.jpg',
       officeHours: [
         { day: 'Tuesday', from: '9:00 AM', to: '11:00 AM' },
@@ -58,7 +55,7 @@ async function seedUsers() {
 
     // --- Adding the rest of the professors ---
 
-    const profPassword3 = await bcrypt.hash('password_yuneza', saltRounds);
+    const profPassword3 = await bcrypt.hash('junico123', saltRounds);
     const professorUser3 = {
       email: 'jyuneza@ccc.edu.ph',
       password: profPassword3,
@@ -66,6 +63,7 @@ async function seedUsers() {
       role: 'PROFESSOR',
       department: 'Computer and Informatics',
       status: 'Not Set',
+      location: {Building: 'Rizal Building', Room: 'Faculty Room'},
       pImg: '/media/professors/junicoyuneza.jpg',
       officeHours: [
         { day: 'Wednesday', from: '9:00 AM', to: '11:00 AM' },
@@ -73,7 +71,7 @@ async function seedUsers() {
       ]
     };
 
-    const profPassword4 = await bcrypt.hash('password_mariquina', saltRounds);
+    const profPassword4 = await bcrypt.hash('laurice123', saltRounds);
     const professorUser4 = {
       email: 'lmariquina@ccc.edu.ph',
       password: profPassword4,
@@ -81,6 +79,7 @@ async function seedUsers() {
       role: 'PROFESSOR',
       department: 'Computer and Informatics',
       status: 'In Class',
+      location: {Building: 'Rizal Building', Room: 'Faculty Room'},
       pImg: '/media/professors/placeholder.jpg',
       officeHours: [
         { day: 'Wednesday', from: '9:00 AM', to: '1:00 PM' },
@@ -89,7 +88,7 @@ async function seedUsers() {
       ]
     };
 
-    const profPassword5 = await bcrypt.hash('password_abuyo', saltRounds);
+    const profPassword5 = await bcrypt.hash('mark123', saltRounds);
     const professorUser5 = {
       email: 'mabuyo@ccc.edu.ph',
       password: profPassword5,
@@ -97,6 +96,7 @@ async function seedUsers() {
       role: 'PROFESSOR',
       department: 'Computer and Informatics',
       status: 'Away',
+      location: {Building: 'Rizal Building', Room: 'Faculty Room'},
       pImg: '/media/professors/placeholder.jpg',
       officeHours: [
         { day: 'Monday', from: '1:00 PM', to: '3:00 PM' },
@@ -105,7 +105,7 @@ async function seedUsers() {
       ]
     };
 
-    const profPassword6 = await bcrypt.hash('password_racelis', saltRounds);
+    const profPassword6 = await bcrypt.hash('nimfa123', saltRounds);
     const professorUser6 = {
       email: 'nracelis@ccc.edu.ph',
       password: profPassword6,
@@ -113,6 +113,7 @@ async function seedUsers() {
       role: 'PROFESSOR',
       department: 'Computer and Informatics',
       status: 'Busy',
+      location: {Building: 'Rizal Building', Room: 'Faculty Room'},
       pImg: '/media/professors/placeholder.jpg',
       officeHours: [
         { day: 'Monday', from: '9:00 AM', to: '11:00 AM' },
@@ -123,11 +124,11 @@ async function seedUsers() {
     };
 
     // Student User
-    const studentPassword = await bcrypt.hash('studentpass', saltRounds);
+    const studentPassword = await bcrypt.hash('tani123', saltRounds);
     const studentUser = {
       email: 'npfeliciano@ccc.edu.ph',
       password: studentPassword,
-      fullName: 'Charlie Feliciano',
+      fullName: 'Nathaniel Feliciano',
       role: 'STUDENT'
     };
 
