@@ -1,12 +1,8 @@
 import { changeStatusBgColor } from './utils/color.js';
 
-// --- State Management ---
-// We store the current state of our filters here.
 let currentStatusFilter = 'All';
 let currentSearchQuery = '';
 
-// --- Main Filtering Logic ---
-// This single function applies both filters at once.
 function applyFilters() {
     const allCards = document.querySelectorAll('.prof-card');
 

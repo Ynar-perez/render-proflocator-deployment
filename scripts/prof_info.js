@@ -70,6 +70,8 @@ function generateProfInfoContents(professorDetails) {
                     ${professorDetails.email}
                 </p>
             </div>
+
+            <button>Show Location on Map</button>
         </div>
     `;
 

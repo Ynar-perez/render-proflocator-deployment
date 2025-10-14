@@ -9,6 +9,52 @@ import { getProfessors } from "./data-store.js";
 let user = '';
 let editingUser = null; // DUPLICATE COPY FOR EDITING
 
+// --- Location Data ---
+const buildingToRoomsMap = {
+    'Admin Building': [
+        'Ab Faculty',
+        'Ab1',
+        'Ab2 Sports Development and Socio Cultural Office',
+        'Ab3',
+        'Ab4',
+        'Ab5',
+        'Ab6 Psychology Laboratory',
+        'Ab7-Ab8 Registrar',
+        'Ab9 Canteen Sentinel\'s Office',
+        'Chemlab',
+        'Deans office',
+        'Finance Management Office',
+        'Gender and Development Child Minding Room',
+        'Guidance office',
+        'Health service office',
+        'Institutional audit office',
+        'Lazaro Hall',
+        'Management Information System',
+        'Office of assistant vice-president for academic affairs',
+        'Office of student affairs',
+        'Office of the college president',
+        'OVP for academic affairs',
+        'OVP for administration',
+        'OVP for extension and linkages',
+        'OVP for research and innovations',
+        'OVP for research extension, planning, and quality assurance',
+        'Physics Laboratory',
+        'Record Management Office',
+        'Speech Laboratory',
+        'Sports Development Office'
+    ],
+    'Rizal Building': [
+        'R-1', 'R-2', 'R-3', 'R-4', 'R-5', 'R-6', 'R-7', 'R-8', 'R-9', 'R-10',
+        'R-11', 'R-12', 'R-13', 'R-14', 'Rizal Conference room', 'Rizal Faculty Office'
+    ],
+    'JMC Building': [
+        '1 JMC- CL1', '1 JMC- CL2', '1 JMC- CL3', '1 JMC- CL4', '1 JMC- CL5',
+        '2 JMC-3', '2 JMC-4', '2 JMC-5', '2 JMC-6',
+        '3 JMC-7', '3 JMC-8', '3 JMC-9', '3 JMC-10', '3 JMC-11', '3 JMC-12',
+        'Audio Visual room', 'Library'
+    ]
+};
+
 initializeProfSection();
 
 async function initializeProfSection() {
@@ -167,10 +213,21 @@ function renderEditingPageOfficeHours() {
     }
 
     // Set location dropdowns to current editingUser.location
+    populateBuildingOptions(); // Populate buildings first
     const buildingDropdown = document.getElementById('building-options');
     const roomDropdown = document.getElementById('room-options');
-    buildingDropdown.value = editingUser.location?.Building || 'Rizal Building';
-    roomDropdown.value = editingUser.location?.Room || 'Faculty';
+
+    const currentBuilding = editingUser.location?.Building || 'Rizal Building';
+    buildingDropdown.value = currentBuilding;
+
+    // Update room options based on the current building
+    updateRoomOptions(currentBuilding);
+
+    const currentRoom = editingUser.location?.Room || 'Faculty Room';
+    roomDropdown.value = currentRoom;
+
+    // Ensure the editingUser object is consistent
+    if (!editingUser.location) editingUser.location = { Building: currentBuilding, Room: currentRoom };
 
     const sorted = sortOfficeHours(editingUser.officeHours);
     if (sorted.length === 0) {
@@ -224,11 +281,54 @@ document.getElementById('status-options').addEventListener('change', (e) => {
     editingUser.status = statusText;
 });
 
+// --- Dynamic Location Dropdown Logic ---
+
+function populateBuildingOptions() {
+    const buildingDropdown = document.getElementById('building-options');
+    buildingDropdown.innerHTML = ''; // Clear existing options
+    for (const building of Object.keys(buildingToRoomsMap)) {
+        const option = document.createElement('option');
+        option.value = building;
+        option.textContent = building;
+        buildingDropdown.appendChild(option);
+    }
+}
+
+function updateRoomOptions(selectedBuilding) {
+    const roomDropdown = document.getElementById('room-options');
+    const rooms = buildingToRoomsMap[selectedBuilding] || [];
+    roomDropdown.innerHTML = ''; // Clear existing options
+    const maxLength = 40; // Max characters to display in the dropdown
+
+    for (const room of rooms) {
+        const option = document.createElement('option');
+        option.value = room;
+        option.title = room; // Show full name on hover
+
+        // Truncate text if it's too long
+        if (room.length > maxLength) {
+            option.textContent = room.substring(0, maxLength - 3) + '...';
+        } else {
+            option.textContent = room;
+        }
+
+        roomDropdown.appendChild(option);
+    }
+}
 // SELECT LOCATION; ONLY UPDATE WHEN UPDATE BUTTON IS CLICKED
 document.getElementById('building-options').addEventListener('change', (e) => {
     if (!editingUser) return;
     if (!editingUser.location) editingUser.location = { Building: '', Room: '' };
-    editingUser.location.Building = e.target.value;
+    const selectedBuilding = e.target.value;
+    editingUser.location.Building = selectedBuilding;
+
+    // Update room options and set the room to the first one in the list
+    updateRoomOptions(selectedBuilding);
+    const roomDropdown = document.getElementById('room-options');
+    if (roomDropdown.options.length > 0) {
+        editingUser.location.Room = roomDropdown.options[0].value;
+        roomDropdown.value = editingUser.location.Room; // Also update the UI
+    }
 });
 document.getElementById('room-options').addEventListener('change', (e) => {
     if (!editingUser) return;

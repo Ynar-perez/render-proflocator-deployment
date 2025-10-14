@@ -85,7 +85,7 @@
 #prof-sec-edit {
     flex-direction: column;
     height: auto;
-    width: 440px;
+    width: 34%;
     padding: 1% 2%;
     background-color: white;
     border-radius: 20px;
@@ -165,4 +165,11 @@
 
 #prof-sec-edit-btn-container button {
     width: 100%;
+}
+
+#room-options {
+    width: 180px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
