@@ -13,14 +13,23 @@ export async function getProfessors(forceRefresh = false) {
     if (!forceRefresh && hasFetched) {
         return professors;
     }
-        try {
-            const response = await fetch('/api/professors');
-            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-            professors = await response.json();
-            hasFetched = true;
-        } catch (error) {
-            console.error("❌ Could not fetch professors:", error);
-            professors = []; // Return an empty array on error
-        }
+    return await refreshProfessors();
+}
+
+/**
+ * Forces a fetch of professor data from the API.
+ * @returns The updated list of professors.
+ */
+export async function refreshProfessors() {
+    try {
+        const response = await fetch('/api/professors');
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        professors = await response.json();
+        hasFetched = true;
+    } catch (error) {
+        console.error("❌ Could not fetch professors:", error);
+        // On error, we can either return the old data or an empty array.
+        // Returning old data might be better to prevent the UI from breaking.
+    }
     return professors;
 }

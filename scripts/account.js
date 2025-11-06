@@ -33,9 +33,15 @@ function populateAccountInfo() {
 function handleChangePassword(event) {
     event.preventDefault(); // Prevent the form from submitting the default way
 
-    // TODO: Implement password change logic
-    // 1. Get values from the form (current, new, confirm)
-    // 2. Validate that new and confirm passwords match
-    // 3. Send a request to your server/backend to update the password
-    alert('Password change functionality is not yet implemented.');
+    // Disable form elements as this feature is not yet implemented
+    const form = event.target;
+    const button = form.querySelector('button');
+    const inputs = form.querySelectorAll('input');
+
+    if (button) button.disabled = true;
+    inputs.forEach(input => input.disabled = true);
+
+    const messageEl = document.getElementById('password-change-message');
+    if (messageEl) messageEl.textContent = 'Password change functionality is not yet available.';
+    if (messageEl) messageEl.style.display = 'block';
 }

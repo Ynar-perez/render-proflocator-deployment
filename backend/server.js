@@ -122,8 +122,13 @@ async function run() {
 
         if (isMatch) {
           // Passwords match - login successful, create a session
-          req.session.user = { fullName: user.fullName, role: user.role, email: user.email };
-          res.json({ message: 'Login successful', user: req.session.user });
+          const sessionUser = { fullName: user.fullName, role: user.role, email: user.email };
+          // Regenerate session to prevent session fixation
+          req.session.regenerate(err => {
+            if (err) return res.status(500).json({ message: 'An internal server error occurred during session regeneration.' });
+            req.session.user = sessionUser;
+            res.json({ message: 'Login successful', user: sessionUser });
+          });
         } else {
           // Passwords do not match
           res.status(401).json({ message: 'Invalid credentials' });
@@ -237,12 +242,27 @@ async function run() {
     // Consolidated status update job moved to a separate worker process (backend/worker.js)
 
     // Start the Express server
-    app.listen(port, () => {
+    const server = app.listen(port, () => {
       console.log(`🚀 Server is running on http://localhost:${port}`);
     });
 
+    // --- Graceful Shutdown ---
+    const gracefulShutdown = (signal) => {
+      console.log(`Received ${signal}. Closing http server.`);
+      server.close(async () => {
+        console.log('Http server closed.');
+        await client.close();
+        console.log('MongoDB client closed.');
+        process.exit(0);
+      });
+    };
+
+    process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+    process.on('SIGINT', () => gracefulShutdown('SIGINT'));
+
   } catch (err) {
     console.error("❌ Failed to connect to MongoDB", err);
+    process.exit(1); // Exit if DB connection fails on startup
   }
 }
 

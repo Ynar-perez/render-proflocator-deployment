@@ -77,8 +77,10 @@ async function startWorker() {
         const professors = await usersCollection.find({ role: 'PROFESSOR' }).toArray();
         for (const prof of professors) {
           const statusUntilMinutes = prof.statusUntil ? parseTimeToMinutes(prof.statusUntil) : null;
+          let update = {};
+          let needsUpdate = false;
 
-          // check classes
+          // 1. Check for active class schedule (highest priority)
           const activeClass = (prof.classSchedules || []).find(cs => {
             if (cs.day !== currentDay) return false;
             const fromM = parseTimeToMinutes(cs.from);
@@ -86,35 +88,38 @@ async function startWorker() {
             return fromM != null && toM != null && fromM <= nowMinutes && nowMinutes < toM;
           });
 
-          if (activeClass && prof.status !== 'In Class') {
-            await usersCollection.updateOne({ _id: prof._id }, { $set: { status: 'In Class' }, $unset: { statusUntil: "" } });
-            continue;
-          }
-
-          if (prof.status === 'In Class' && !activeClass) {
-            await usersCollection.updateOne({ _id: prof._id }, { $set: { status: 'Not Set' }, $unset: { statusUntil: "" } });
-            continue;
-          }
-
-          if (statusUntilMinutes != null && nowMinutes >= statusUntilMinutes && !activeClass) {
-            await usersCollection.updateOne({ _id: prof._id }, { $set: { status: 'Not Set' }, $unset: { statusUntil: "" } });
-            continue;
-          }
-
-          const hasManualStatus = prof.status && !['Available','In Class','Not Set'].includes(prof.status);
-          if (hasManualStatus && !activeClass) continue;
-
-          const inConsultation = (prof.consultationHours || []).some(ch => {
-            if (ch.day !== currentDay) return false;
-            const fromM = parseTimeToMinutes(ch.from);
-            const toM = parseTimeToMinutes(ch.to);
-            return fromM != null && toM != null && fromM <= nowMinutes && nowMinutes < toM;
-          });
-
-          if (inConsultation) {
-            if (prof.status !== 'Available') await usersCollection.updateOne({ _id: prof._id }, { $set: { status: 'Available' } });
+          if (activeClass) {
+            if (prof.status !== 'In Class') {
+              update = { $set: { status: 'In Class' }, $unset: { statusUntil: '' } };
+              needsUpdate = true;
+            }
           } else {
-            if (prof.status === 'Available') await usersCollection.updateOne({ _id: prof._id }, { $set: { status: 'Not Set' } });
+            // 2. Not in class, check other statuses
+            const hasManualStatus = prof.status && !['Available', 'In Class', 'Not Set'].includes(prof.status);
+
+            // If manual status has expired, or if status was 'In Class' but no longer is
+            if ((statusUntilMinutes != null && nowMinutes >= statusUntilMinutes) || (prof.status === 'In Class' && !activeClass)) {
+              update = { $set: { status: 'Not Set' }, $unset: { statusUntil: '' } };
+              needsUpdate = true;
+            } else if (!hasManualStatus) {
+              // 3. If no manual status, check for consultation hours
+              const inConsultation = (prof.consultationHours || []).some(ch => {
+                if (ch.day !== currentDay) return false;
+                const fromM = parseTimeToMinutes(ch.from);
+                const toM = parseTimeToMinutes(ch.to);
+                return fromM != null && toM != null && fromM <= nowMinutes && nowMinutes < toM;
+              });
+
+              const newStatus = inConsultation ? 'Available' : 'Not Set';
+              if (prof.status !== newStatus) {
+                update = { $set: { status: newStatus } };
+                needsUpdate = true;
+              }
+            }
+          }
+
+          if (needsUpdate) {
+            await usersCollection.updateOne({ _id: prof._id }, update);
           }
         }
       } catch (err) {
@@ -128,5 +133,16 @@ async function startWorker() {
     process.exit(1);
   }
 }
+
+async function shutdown() {
+  console.log('Worker: Shutting down...');
+  await client.close();
+  console.log('Worker: MongoDB client closed.');
+  process.exit(0);
+}
+
+// Listen for termination signals
+process.on('SIGTERM', shutdown);
+process.on('SIGINT', shutdown);
 
 startWorker();

@@ -1,10 +1,10 @@
 import { changeStatusTextColor } from './utils/color.js';
-import { getProfessors } from './data-store.js';
+import { getProfessors, refreshProfessors } from './data-store.js';
 import { refreshProfSection } from './prof_section.js';
 import { convertTo12HourFormat } from './utils/time-date.js';
 
-export async function generateProfCards(forceRefresh = false) {
-    const profData = await getProfessors();
+export async function generateProfCards(forceRefresh = false) { 
+    const profData = forceRefresh ? await refreshProfessors() : await getProfessors();
     if (profData.length === 0) {
         document.getElementById('prof-card-grid').innerHTML = '<p class="error-message">Could not load professor data. Please try again later.</p>';
         return;
@@ -49,14 +49,11 @@ export async function generateProfCards(forceRefresh = false) {
 // --- INITIAL LOAD & POLLING ---
 
 // 1. Initial load of the professor cards
-generateProfCards();
+await generateProfCards();
 
-/*
 // 2. Set up a poller to refresh the cards every 10 seconds
 setInterval(async () => {
     console.log('🔄 Refreshing professor data...');
-    await getProfessors(true); // Force a refresh of the data store
-    await generateProfCards(); // Re-render the cards with the new data
+    await generateProfCards(true); // Force a refresh of the data store and re-render cards
     await refreshProfSection(); // Re-render the professor's private section
 }, 10000); // 10000 milliseconds = 10 seconds
-*/
