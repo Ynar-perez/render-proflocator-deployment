@@ -1,14 +1,3 @@
-# Dependencies
-/node_modules
-
-# Environment variables
 .env
-
-# PM2 logs and data
-*.log
-pids/
-
-# IDE and OS files
-.idea/
-.vscode/
-*.DS_Store
+node_modules/
+.DS_Store
