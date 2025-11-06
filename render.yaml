@@ -7,8 +7,10 @@ services:
     env: node
     plan: starter
     branch: main
-    buildCommand: npm install
+    buildCommand: npm ci
     startCommand: npm run start
+    healthCheckPath: /health
+    autoDeploy: true
     envVars:
       - key: NODE_ENV
         value: production
@@ -24,7 +26,7 @@ services:
     env: node
     plan: starter
     branch: main
-    buildCommand: npm install
+    buildCommand: npm ci
     startCommand: npm run worker
     envVars:
       - key: NODE_ENV
