@@ -1,7 +1,7 @@
 {
   "type": "module",
   "scripts": {
-  "start": "node backend/server.js",
+  "start": "pm2 start backend/server.js --name proflocator-api",
     "dev": "nodemon backend/server.js",
     "worker": "node backend/worker.js"
   },
