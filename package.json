@@ -1,7 +1,10 @@
 {
   "type": "module",
+  "engines": {
+    "node": "18.x"
+  },
   "scripts": {
-  "start": "pm2 start backend/server.js --name proflocator-api",
+    "start": "node backend/server.js",
     "dev": "nodemon backend/server.js",
     "worker": "node backend/worker.js"
   },
