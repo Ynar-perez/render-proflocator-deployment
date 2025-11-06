@@ -1,5 +1,6 @@
 import { changeInfoSectionStatusColor } from './utils/color.js';
 import { getProfessors } from './data-store.js';
+import { convertTo12HourFormat, getDayIndex, parseTime, formatTimeAgo } from './utils/time-date.js';
 import { sortOfficeHours } from './prof_section.js';
 
 const profCardGrid = document.getElementById('prof-card-grid');
@@ -9,31 +10,126 @@ function unhideInfoPage() {
     infoPage.style.display = 'flex';
 }
 
+function sortSchedules(schedules = []) {
+    return [...(schedules || [])].sort((a, b) => {
+        const dayDiff = getDayIndex(a.day) - getDayIndex(b.day);
+        if (dayDiff !== 0) return dayDiff;
+        // The 'from' time for schedules is in 24hr format 'HH:mm'
+        // so we can use parseTime directly.
+        const timeA = parseTime(a.from);
+        const timeB = parseTime(b.from);
+        return timeA - timeB;
+    });
+}
+
+/**
+ * Converts a full day name to its short abbreviation.
+ * @param {string} day - The full name of the day (e.g., "Monday").
+ * @returns {string} The abbreviated day name (e.g., "M").
+ */
+function getDayAbbreviation(day) {
+    const abbreviations = {
+        'Monday': 'M', 'Tuesday': 'T', 'Wednesday': 'W',
+        'Thursday': 'Th', 'Friday': 'F', 'Saturday': 'S',
+        'Sunday': 'Su'
+    };
+    return abbreviations[day] || day;
+}
+
 function generateProfInfoContents(professorDetails) {
     let profDayTimeSetHTML = '';
 
-    const sortedOfficeHours = sortOfficeHours(professorDetails.officeHours || []);
+    const sortedOfficeHours = sortOfficeHours(professorDetails.consultationHours || []);
 
     if (sortedOfficeHours.length === 0) {
-        profDayTimeSetHTML = '<p class="empty-office-hours">No office hours set.</p>';
+        profDayTimeSetHTML = '<p class="empty-consultation-hours">No consultation hours set.</p>';
     } else {
+        profDayTimeSetHTML = `<table class="info-schedule-table">
+            <thead>
+                <tr>
+                    <th>Day</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody>`;
         sortedOfficeHours.forEach((set) => {
             profDayTimeSetHTML += `
-                <div class="day-time">
-                    <p class="day">${set.day}:</p>
-                    <p class="time">${set.from}</p>
-                    <p class="to">-</p>
-                    <p class="time-until">${set.to}</p>
-                </div>
+                <tr>
+                    <td class="day-col">${set.day}:</td>
+                    <td class="time-col">${set.from} - ${set.to}</td>
+                </tr>
             `;
         });
+        profDayTimeSetHTML += '</tbody></table>';
     }
 
+    const statusText = professorDetails.status || 'Not Set';
+    const statusUntilText = professorDetails.statusUntil ? ` (until ${convertTo12HourFormat(professorDetails.statusUntil)})` : '';
+
+    let classScheduleHTML = '';
+    const sortedSchedules = sortSchedules(professorDetails.classSchedules);
+
+    if (sortedSchedules.length === 0) {
+        classScheduleHTML = '<p class="empty-schedule">No class schedules set.</p>';
+    } else {
+        classScheduleHTML = `<table class="info-schedule-table">
+            <thead>
+                <tr>
+                    <th>Day</th>
+                    <th>Time</th>
+                    <th>Subject</th>
+                    <th>Section</th>
+                    <th>Room/Type</th>
+                </tr>
+            </thead>
+            <tbody>`;
+        sortedSchedules.forEach(schedule => {
+            const timeString = `${convertTo12HourFormat(schedule.from)} - ${convertTo12HourFormat(schedule.to)}`;
+            classScheduleHTML += `
+                <tr>
+                    <td class="day-col">${getDayAbbreviation(schedule.day)}</td>
+                    <td class="time-col">${timeString}</td>
+                    <td class="subject-col">${schedule.subject}</td>
+                    <td class="section-col">${schedule.section}</td>
+                    <td class="room-col">${schedule.roomType}</td>
+                </tr>`;
+        });
+        classScheduleHTML += '</tbody></table>';
+    }
+
+    let locationHTML;
+    const hasLocation = professorDetails.location && professorDetails.location.Room && professorDetails.location.Building && professorDetails.location.Room !== 'Not Set';
+
+    let locationTimeAgo = '';
+    if (professorDetails.locationLastModified) {
+        locationTimeAgo = ` <span class="location-time-ago">(${formatTimeAgo(professorDetails.locationLastModified)})</span>`;
+    }
+
+    if (hasLocation) {
+        locationHTML = `
+            <p>
+                <span class="bold">${professorDetails.location.Room}</span>
+                at 
+                <span class="bold">${professorDetails.location.Building}</span>
+                ${locationTimeAgo}
+            </p>`;
+    } else {
+        locationHTML = `<p><span class="bold">Not Set</span>${locationTimeAgo}</p>`;
+    }
     const profInfoContentsHTML = `
         <div class="info-section">
             <img src="${professorDetails.pImg}" id="info-section-display-pic">
             <p class="info-section-name">Prof. ${professorDetails.fullName}</p>
-            <p id="info-section-status" class="status">${professorDetails.status || 'Not Set'}</p>
+            <p class="status-container"><span id="info-section-status" class="status">${statusText}</span><span class="status-until">${statusUntilText}</span></p>
+
+                        <!--CURRENT LOCATION-->
+            <div class="x-div">
+                <div class="icon-container">
+                    <i class="fa-solid fa-location-dot"></i>
+                </div>
+                ${locationHTML}
+            </div>
+
             <!--DEPARTMENT-->
             <div class="x-div">
                 <div class="icon-container">
@@ -50,18 +146,16 @@ function generateProfInfoContents(professorDetails) {
             <div class="day-time-div">
                 ${profDayTimeSetHTML}
             </div>
-            <!--OFFICE LOCATION-->
-            <div class="x-div">
-                <div class="icon-container">
-                    <i class="fa-solid fa-location-dot"></i>
+
+            <div>
+                <p class="bold cons-details-title">Class Schedule:</p>
+                <div class="class-sched-div">
+                    ${classScheduleHTML}
                 </div>
-                <p>
-                    <span class="bold">${professorDetails.location?.Room || 'Not Set'}</span>
-                    at 
-                    <span class="bold">${professorDetails.location?.Building || ''}</span>
-                </p>
             </div>
+
             <!--EMAIL ADDRESS-->
+            <p class="bold cons-details-title">Contact:</p>
             <div class="x-div">
                 <div class="icon-container">
                     <i class="fontawesome-icon fa-solid fa-at"></i>
@@ -70,8 +164,6 @@ function generateProfInfoContents(professorDetails) {
                     ${professorDetails.email}
                 </p>
             </div>
-
-            <button>Show Location on Map</button>
         </div>
     `;
 
@@ -86,6 +178,9 @@ profCardGrid.addEventListener('click', async (event) => {
 
     // If the click was not inside a professor card, do nothing.
     if (parentDiv) {
+        // Scroll the main window to the top to ensure the info panel is visible
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
         const allCards = profCardGrid.querySelectorAll('.prof-card');
         allCards.forEach(card => {
             card.classList.remove('active');
@@ -111,6 +206,12 @@ profCardGrid.addEventListener('click', async (event) => {
 
         unhideInfoPage();
         generateProfInfoContents(professorDetails);
+
+        // Also scroll the info panel itself to the top
+        const infoPage = document.getElementById('info-page');
+        if (infoPage) {
+            infoPage.scrollTop = 0;
+        }
     }
 });
 

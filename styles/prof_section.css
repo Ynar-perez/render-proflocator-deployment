@@ -1,22 +1,11 @@
 #prof-sec {
     display: none;
-    flex-direction: row;
-    width: 100%;
-    justify-content: center;
-    margin: 100px 0 0 0;
-    align-items: flex-start;
-    column-gap: 20px;
-}
-
-#prof-sec-details {
-    display: flex;
     flex-direction: column;
-    width: 400px;
-    padding: 1% 2%;
-    background-color: white;
-    border-radius: 20px;
+    width: 100%;
     height: auto;
-    box-shadow: var(--shadow);
+    align-items: flex-start;
+    padding: 2% 2% 6% 2%;
+    row-gap: 20px;
 }
 
 #prof-name-greeting {
@@ -31,17 +20,7 @@
     margin-top: -8px;
 }
 
-#edit-btn.editing-state {
-    background-color: transparent;
-    color: #888;
-    border-color: transparent;
-    cursor: default;
-    text-align: center;
-    opacity: 1;
-    font-style: italic;
-}
-
-#prof-sec-office-hours-container {
+#prof-sec-consultation-hours-container {
     width: 100%;
     height: auto;
     display: flex;
@@ -51,11 +30,6 @@
     border-radius: 8px;
 }
 
-.prof-sec-office-hours-container p {
-    display: inline;
-}
-
-
 .day-time-container {
     display: flex;
     flex-direction: row;
@@ -63,8 +37,6 @@
 }
 
 .day {
-    display: flex;
-    flex: 1;
     font-weight: 700;
 }
 
@@ -83,30 +55,20 @@
 /* EDITING DIV */
 
 #prof-sec-edit {
-    flex-direction: column;
-    height: auto;
-    width: 34%;
-    padding: 1% 2%;
-    background-color: white;
-    border-radius: 20px;
-    height: auto;
     justify-content: flex-start;
-    box-shadow: var(--shadow);
-    display: none;
-}
-
-#prof-sec-edit-title {
-    font-size: 16px;
-    text-transform: uppercase;
-    font-weight: bold;
-    text-align: center;
 }
 
 #set-status-container, #add-location-container {
     display: inherit;
-    justify-content: space-between;
+    justify-content: flex-start;
     height: auto;
     align-items: center;
+    column-gap: 10px;
+    margin-bottom: 4px;
+}
+
+#building-options {
+    margin-right: 10px;
 }
 
 #status-options {
@@ -114,62 +76,101 @@
     margin-left: 6px;
 }
 
-.prof-sec-edit-office-hour {
-    display: inherit;
-    flex-direction: column;
+.consultation-hours-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    font-size: 14px;
+    
 }
 
-.prof-sec-edit-office-hour {
-    display: grid;
-    grid-template-columns: 120px 80px 20px 1fr 26px;
-    margin-left: 20px;
+.consultation-hours-table th,
+.consultation-hours-table td {
+    border: 1px solid rgba(128, 128, 128, 0.5);
+    padding: 8px 12px;
+    text-align: left;
+    flex-wrap: nowrap;
+    text-wrap: nowrap;
 }
 
-.office-hour-delete-text, .office-hour-add-text {
-    aspect-ratio: 1 / 1;
+.consultation-hours-table th, .class-schedule-table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
     text-align: center;
 }
 
-.office-hour-delete-text {
-    color: red;
-}
-
-.office-hour-add-text {
-    color: green;
-}
-
-.office-hour-delete-text:hover, .office-hour-add-text:hover {
-    cursor: pointer;
-}
-
-#add-office-hour {
-    display: grid;
-    grid-template-columns: 80px 110px 10px 110px 1fr;
-    column-gap: 6px;
-    margin-left: 20px;
-}
-
-#js-office-hour-add-text {
+/* Use a class for the time cell for better readability */
+.time-cell {
     display: flex;
-    justify-content: end;
+    flex-direction: row;
     align-items: center;
-    width: 25px;
+    gap: 4px;
+}
+
+/* SCHEDULE TABLE */
+.class-schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+
+.class-schedule-table th,
+.class-schedule-table td {
+    border: 1px solid rgba(128, 128, 128, 0.5);
+    padding: 8px 12px;    
+    vertical-align: middle;
+    flex-wrap: nowrap;
+    text-wrap: nowrap;
+}
+
+.class-schedule-table td {
+    text-align: left;
+}
+
+.schedule-input {
+    width: 100%; 
+    box-sizing: border-box; /* Include padding and border in the element's total width */
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
 #prof-sec-edit-btn-container {
     display: flex;
-    justify-content: space-around;
-    column-gap: 6px;
+    justify-content: end;
     margin-top: 10px;
 }
 
-#prof-sec-edit-btn-container button {
-    width: 100%;
-}
-
 #room-options {
-    width: 180px;
+    width: auto;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.time-input {
+    flex: 1;
+    max-width: 46%;
+    margin: 0;
+}
+
+.seperator {
+    width: 6%;
+    border: none;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+/* Style for rows marked for deletion */
+.marked-for-deletion {
+    opacity: 0.6;
+    background-color: #fff5f5;
+}
+
+.marked-for-deletion td {
+    text-decoration: line-through;
+    text-decoration-color: #000000;
 }

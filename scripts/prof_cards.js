@@ -1,6 +1,7 @@
 import { changeStatusTextColor } from './utils/color.js';
 import { getProfessors } from './data-store.js';
 import { refreshProfSection } from './prof_section.js';
+import { convertTo12HourFormat } from './utils/time-date.js';
 
 export async function generateProfCards(forceRefresh = false) {
     const profData = await getProfessors();
@@ -25,17 +26,21 @@ export async function generateProfCards(forceRefresh = false) {
         return (statusOrder[statusA] || 99) - (statusOrder[statusB] || 99);
     });
 
-    const cardsHtml = sortedProfData.map((prof) => `
+    const cardsHtml = sortedProfData.map((prof) => {
+        const statusText = prof.status || 'Not Set';
+        const statusUntilText = prof.statusUntil ? ` (until ${convertTo12HourFormat(prof.statusUntil)})` : '';
+
+        return `
         <div class="prof-card" data-email="${prof.email}">
-        <img class="prof-card-img" src="${prof.pImg}" alt="" width="100%">
+            <img class="prof-card-img" src="${prof.pImg}" alt="" width="100%">
             <div class="prof-info-div">
                 <div class="prof-card-details">
                     <p class="prof-name">Prof. ${prof.fullName}</p>
-                    <p class="status">${prof.status || 'Not Set'}</p>
+                    <p class="status-container"><span class="status">${statusText}</span><span class="status-until">${statusUntilText}</span></p>
                 </div>
             </div>
         </div>
-    `).join('');
+    `}).join('');
 
     document.getElementById('prof-card-grid').innerHTML = cardsHtml;
     changeStatusTextColor();
@@ -46,6 +51,7 @@ export async function generateProfCards(forceRefresh = false) {
 // 1. Initial load of the professor cards
 generateProfCards();
 
+/*
 // 2. Set up a poller to refresh the cards every 10 seconds
 setInterval(async () => {
     console.log('🔄 Refreshing professor data...');
@@ -53,3 +59,4 @@ setInterval(async () => {
     await generateProfCards(); // Re-render the cards with the new data
     await refreshProfSection(); // Re-render the professor's private section
 }, 10000); // 10000 milliseconds = 10 seconds
+*/

@@ -1,12 +1,13 @@
 #prof-card-container {
     height: auto;
     min-width: 50%;
-    flex: 2;
-    max-width: 84%;
+    max-width: 100%;
+    flex: 1;
     display: flex;
     flex-direction: column;
     border-radius: 20px;
     background-color: transparent;
+    padding: 0; /* removed padding to make prof cards container flush */
 }
 
 #search-component {
@@ -185,6 +186,7 @@
     font-weight: bold;
 }
 
-.status span {
-    font-size: 20px;
+.status-until {
+    font-size: 12px;
+    opacity: 0.8;
 }

@@ -17,6 +17,11 @@ button {
     opacity: 0.8;
 }
 
+.btn-style-1:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
 .btn-style-2 {
     padding: 2px 0;
     width: 100px;
@@ -46,13 +51,6 @@ button {
 }
 
 #signup-div .authN-btn {
-    margin-top: 10px;
-}
-
-/* PROFESSOR SECTION */
-
-#edit-btn {
-    align-self: flex-end;
     margin-top: 10px;
 }
 
@@ -99,3 +97,25 @@ button {
     border: none;
 }
 
+
+.delete-consultation-btn, .delete-class-btn {
+    border: 2px solid #ff000094;
+    color: #ff000094;
+}
+
+.delete-consultation-btn:hover, .delete-class-btn:hover {
+    border: 2px solid #ff0000; 
+    color: #ff0000; 
+}
+
+
+#schedule-edit-btn-container {
+    display: flex;
+    justify-content: end;
+    margin-top: 10px;
+}
+
+.add-btn {
+    background-color: green;
+    
+}

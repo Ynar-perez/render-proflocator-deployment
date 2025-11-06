@@ -156,11 +156,10 @@ header {
     display: flex;
     width: 100%;
     height: auto;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: center;
-    padding: 100px 6% 30px 6%;
+    flex-direction: row; 
+    padding: 0;
     column-gap: 2%;
+    padding: 2% 2% 6% 2%;
 }
 
 /* FOOTER */
@@ -174,4 +173,43 @@ footer {
     min-height: 40px;
     color: white;
     background-color: var(--webColor1);
+    position: fixed;
+    bottom: 0;
+    z-index: 1000;
+}
+
+.page-content {
+    width: auto;
+    height: auto;
+    margin: 70px 0 30px 21%;
+}
+
+.div-style-1 {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 2% 2%;
+    background-color: white;
+    border-radius: 20px;
+    height: auto;
+    box-shadow: var(--shadow);
+}
+
+/* Use a class for the time cell for better readability */
+.time-cell {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+}
+
+
+
+
+
+.div-page-title {
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-align: center;
 }

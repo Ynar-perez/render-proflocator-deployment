@@ -14,7 +14,7 @@ export async function getProfessors(forceRefresh = false) {
         return professors;
     }
         try {
-            const response = await fetch('http://localhost:3000/api/professors');
+            const response = await fetch('/api/professors');
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             professors = await response.json();
             hasFetched = true;

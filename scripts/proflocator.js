@@ -30,16 +30,16 @@ if (currentUser) {
 const dropdownMenu = document.getElementById('dropdown-menu');
 const profileImgBtn = document.getElementById('profile-img-btn');
 
-function toggleDropdownMenu(event) {
-	event.stopPropagation();
-	if (dropdownMenu.style.display === 'flex') {
-		dropdownMenu.style.display = 'none';
-	} else {
-		dropdownMenu.style.display = 'flex';
-	}
+if (profileImgBtn) {
+	profileImgBtn.addEventListener('click', (event) => {
+		event.stopPropagation();
+		if (dropdownMenu.style.display === 'flex') {
+			dropdownMenu.style.display = 'none';
+		} else {
+			dropdownMenu.style.display = 'flex';
+		}
+	});
 }
-
-profileImgBtn.addEventListener('click', toggleDropdownMenu);
 
 // Hide dropdown when clicking outside
 document.addEventListener('click', function(event) {
@@ -51,78 +51,18 @@ document.addEventListener('click', function(event) {
 // --- Logout Functionality ---
 const logoutButton = document.getElementById('logout-btn');
 if (logoutButton) {
-	logoutButton.addEventListener('click', (event) => {
+	logoutButton.addEventListener('click', async (event) => {
 		event.preventDefault(); // Prevent the link from navigating immediately
-		sessionStorage.removeItem('loggedInUser'); // Clear the user session
-		window.location.href = 'index.html'; // Redirect to the login page
+		try {
+			// Inform the server to destroy the session
+			await fetch('/api/logout', { method: 'POST' });
+		} catch (error) {
+			console.error('Logout request to server failed:', error);
+			// Proceed with client-side cleanup even if server call fails
+		} finally {
+			// Clear the user session from the browser and redirect
+			sessionStorage.removeItem('loggedInUser');
+			window.location.href = 'index.html';
+		}
 	});
 }
-
-// HTML OFFICE HOUR INPUT ELEMENTS
-
-document.getElementById('add-office-hour').innerHTML = `
-	<select name="day" id="add-office-hour-day">
-		<option value="" disabled selected>Day</option>
-		<option value="Monday">Mon</option>
-		<option value="Tuesday">Tues</option>
-		<option value="Wednesday">Wed</option>
-		<option value="Thursday">Thu</option>
-		<option value="Friday">Fri</option>
-		<option value="Saturday">Sat</option>
-	</select>
-
-	<!--START-->
-	<select name="from" id="add-office-hour-from-time">
-		<option value="" disabled selected>From</option>
-		<option value="07:00">7:00 AM</option>
-		<option value="07:30">7:30 AM</option>
-		<option value="08:00">8:00 AM</option>
-		<option value="08:30">8:30 AM</option>
-		<option value="09:00">9:00 AM</option>
-		<option value="09:30">9:30 AM</option>
-		<option value="10:00">10:00 AM</option>
-		<option value="10:30">10:30 AM</option>
-		<option value="11:00">11:00 AM</option>
-		<option value="11:30">11:30 AM</option>
-		<option value="12:00">12:00 PM</option>
-		<option value="12:30">12:30 PM</option>
-		<option value="13:00">1:00 PM</option>
-		<option value="13:30">1:30 PM</option>
-		<option value="14:00">2:00 PM</option>
-		<option value="14:30">2:30 PM</option>
-		<option value="15:00">3:00 PM</option>
-		<option value="15:30">3:30 PM</option>
-		<option value="16:00">4:00 PM</option>
-		<option value="16:30">4:30 PM</option>
-		<option value="17:00">5:00 PM</option>
-	</select>
-
-	<p>-</p>
-
-	<select name="to" id="add-office-hour-to-time">
-		<option value="" disabled selected>To</option>
-		<option value="07:00">7:00 AM</option>
-		<option value="07:30">7:30 AM</option>
-		<option value="08:00">8:00 AM</option>
-		<option value="08:30">8:30 AM</option>
-		<option value="09:00">9:00 AM</option>
-		<option value="09:30">9:30 AM</option>
-		<option value="10:00">10:00 AM</option>
-		<option value="10:30">10:30 AM</option>
-		<option value="11:00">11:00 AM</option>
-		<option value="11:30">11:30 AM</option>
-		<option value="12:00">12:00 PM</option>
-		<option value="12:30">12:30 PM</option>
-		<option value="13:00">1:00 PM</option>
-		<option value="13:30">1:30 PM</option>
-		<option value="14:00">2:00 PM</option>
-		<option value="14:30">2:30 PM</option>
-		<option value="15:00">3:00 PM</option>
-		<option value="15:30">3:30 PM</option>
-		<option value="16:00">4:00 PM</option>
-		<option value="16:30">4:30 PM</option>
-		<option value="17:00">5:00 PM</option>
-	</select>
-
-	<p id="js-office-hour-add-text" class="office-hour-add-text"><i class="fa-solid fa-plus"></i></p>  
-`;

@@ -14,13 +14,14 @@
     <link rel="stylesheet" href="/styles/general.css">
     <link rel="stylesheet" href="/styles/buttons.css">
     <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="styles/side-nav.css">
     <link rel="stylesheet" href="/styles/prof_section.css">
     <link rel="stylesheet" href="/styles/prof_cards.css">
     <link rel="stylesheet" href="/styles/prof_info.css">
 
     <script src="https://kit.fontawesome.com/73ca3cfc89.js" crossorigin="anonymous"></script>
 </head>
-<body>
+<body spellcheck="false">
     <!--MAIN WEB-->
     <!--HEADER-->
     <header>
@@ -39,7 +40,7 @@
                 <p id="user-name"></p>
                 <p id="user-type"></p>
             </div>
-            <button id="profile-img-btn" onclick="showDropdown()">
+            <button id="profile-img-btn">
                 <img src="/media/professors/placeholder.jpg" alt="P" width="20px" height="20px" id="profile-img">
             </button>
         </div>
@@ -61,119 +62,316 @@
         </a>
     </div>
 
-    <!--SHOWS WHEN THE USER IS A PROFESSOR | PROFESSOR PRIVATE SECTION-->
-    <section id="prof-sec">
-        <div id="prof-sec-details">
-            <div id="prof-name-greeting">
-                <p id="greet">
-                    <span id="greeting"></span>,
-                </p>
-                <p id="prof">
-                    Prof. 
-                    <span id="prof-user-name" class="bold"></span>
-                </p>
+    <main>
+        <section id="side-nav">
+            <div id="nav-home" class="side-nav-option">
+                Home
             </div>
-                
-            <p class="prof-sec-status">
-                Status: 
-                <span id="prof-sec-status" class="prof-status status bold"></span>
-            </p>
-
-            <p class="prof-sec-location">
-                Location: 
-                <span id="prof-sec-location" class="bold"></span>
-            </p>
-
-            <p class="bold">Office hours:</p>
-            
-            <div id="prof-sec-office-hours-container">
-
+            <div id="nav-profSec" class="side-nav-option">
+                Status & Schedule
             </div>
-            <button id="edit-btn" class="btn-style-1">Edit</button>
-        </div>
+        </section>
 
-        <div id="prof-sec-edit">
-            <p id="prof-sec-edit-title">Edit Availability</p>
-            <div id="set-status-container">
-                <span class="bold">Set status:</span>
-                <select name="status" id="status-options" class="dropdown">
-                    <option value="available">Available</option>
-                    <option value="in-a-meeting">In a Meeting</option>
-                    <option value="in-class">In Class</option>
-                    <option value="away">Away</option>
-                    <option value="busy">Busy</option>
-                </select>
-            </div>
-
-            <div id="add-location-container">
-                <span class="bold">Location:</span>
-                <div>
-                    <select name="building" id="building-options" class="dropdown">
-                        <option value="Admin Building">Admin Building</option>
-                        <option value="Rizal Building">Rizal Building</option>
-                        <option value="JMC Building">JMC Building</option>
-                    </select>
-
-                    <select name="room" id="room-options" class="dropdown">
-                        <!-- Options will be dynamically populated by JavaScript -->
-                    </select>
-                </div>
-            </div>
-
-            <p class="bold">Office Hours:</p>
-            <div id="prof-sec-edit-office-hours">
-                <!-- GENERATE HTML -->
-            </div>
-
-            <div id="add-office-hour">
-                <!-- GENERATE HTML -->
-            </div>
-
-            <div id="prof-sec-edit-btn-container">
-                <button id="cancel-btn" class="btn-style-2">Cancel</button>
-                <button id="update-btn" class="btn-style-1">Update</button>
-            </div>
-        </div>
-    </section>
-
-    <!--SHOWS WHETHER THE USER IS A STUDENT OR A PROFESSOR-->
-    <section id="student-section">
-        <div id="prof-card-container">
-            <!--SEARCH SECTION-->
-            <div id="search-component">
-                <div id="logo-title-container">
-                    <img src="/media/logo/proflocatorLogo.jpg">
-                    <p>ProfLocator</p>
-                </div>
-                <div id="search-bar-div">
-                    <div class="search-icon">
-                        <i class="fa-solid fa-magnifying-glass"></i>
+        <section id="home-page" class="page-content" style="display: none;">
+            <section id="student-section">
+                <div id="prof-card-container">
+                    <!--SEARCH SECTION-->
+                    <div id="search-component">
+                        <div id="search-bar-div">
+                            <div class="search-icon">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </div>
+                            <input type="search" placeholder="Locate a professor" id="search-bar">
+                        </div>
+                        <div id="filter-div">
+                            <p>Show:</p>
+                            <button id="filter-btn" class="btn-style1">All</button>
+                        </div>
                     </div>
-                    <input type="search" placeholder="Locate a professor" id="search-bar">
-                </div>
-                <div id="filter-div">
-                    <p>Show:</p>
-                    <button id="filter-btn" class="btn-style1">All</button>
-                </div>
-            </div>
 
-            <div id="prof-card-grid">
-                <!--PROFCARD WILL GENERATE HERE-->
-            </div>
-        </div>
+                    <div id="prof-card-grid">
+                        <!--PROFCARD WILL GENERATE HERE-->
+                    </div>
+                </div>
 
-        <div id="info-page">
-            <div id="info-section-top">
-                <p id="info-section-title">ProfDetail</p>
-                <button id="info-section-close-btn">
-                    <i class="close-icon fa-solid fa-xmark"></i>
-                </button>
-            </div>
-            <div id="js-generated-html-info-container">
-                <!--JS WILL GENERATE THESE-->
-            </div>
-        </div>
-    </section>
+                <div id="info-page">
+                    <div id="info-section-top">
+                        <p id="info-section-title">ProfDetail</p>
+                        <button id="info-section-close-btn">
+                            <i class="close-icon fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                    <div id="js-generated-html-info-container">
+                        <!--JS WILL GENERATE THESE-->
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <section id="prof-page" class="page-content" style="display: none;">
+            <section id="prof-sec">
+                <div id="prof-sec-details" class="div-style-1">
+                    <div id="prof-name-greeting">
+                        <p id="greet">
+                            <span id="greeting"></span>,
+                        </p>
+                        <p id="prof">
+                            Prof. 
+                            <span id="prof-user-name" class="bold"></span>
+                        </p>
+                    </div>
+                        
+                    <p>
+                        Status: 
+                        <span id="prof-sec-status" class="prof-status status bold"></span>
+                        <span id="prof-sec-status-until" class="status-until" style="display: none;"></span>
+                    </p>
+
+                    <p class="prof-sec-location">
+                        Location: 
+                        <span id="prof-sec-location" class="bold"></span>
+                    </p>
+
+                    <p class="bold">Consultation hours:</p>
+                    
+                    <div id="prof-sec-consultation-hours-container">
+
+                    </div>
+                </div>
+
+                <div id="prof-sec-edit" class="div-style-1">
+                    <p class="div-page-title">Edit Availability</p>
+                    <div id="set-status-container">
+                        <span class="bold">Set status as</span>
+                        <select name="status" id="status-options" class="dropdown">
+                            <option value="not-set">Not Set</option>
+                            <option value="available">Available</option>
+                            <option value="in-a-meeting">In a Meeting</option>
+                            <option value="in-class">In Class</option>
+                            <option value="away">Away</option>
+                            <option value="busy">Busy</option>
+                        </select>
+
+                        <span class="bold">until</span>
+                        <select name="status-until" id="status-until-time" class="dropdown"></select>
+
+                    </div>
+
+                    <div id="add-location-container">
+                        <span class="bold">Location:</span>
+                        <div>
+                            <select name="building" id="building-options" class="dropdown">
+                                <option value="Admin Building">Admin Building</option>
+                                <option value="Rizal Building">Rizal Building</option>
+                                <option value="JMC Building">JMC Building</option>
+                            </select>
+
+                            <select name="room" id="room-options" class="dropdown">
+                                <!-- Options will be dynamically populated by JavaScript -->
+                            </select>
+                        </div>
+                    </div>
+
+                    <p class="bold">Consultation Hours:</p>
+                    <div class="table-responsive-container">
+                        <table class="consultation-hours-table">
+                            <thead>
+                                <tr>
+                                    <th>Day</th>
+                                    <th>Time</th>
+                                    <th style="width: 10%;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="consultation-hours-tbody">
+                                <!-- JS will generate rows here -->
+                                <!-- Add new row -->
+                                <tr>
+                                    <td>
+                                        <select name="day" id="add-consultation-hour-day" class="schedule-input">
+                                            <option value="" disabled selected>Day</option>
+                                            <option value="Monday">Monday</option>
+                                            <option value="Tuesday">Tuesday</option>
+                                            <option value="Wednesday">Wednesday</option>
+                                            <option value="Thursday">Thursday</option>
+                                            <option value="Friday">Friday</option>
+                                            <option value="Saturday">Saturday</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="from" id="add-consultation-hour-from-time" class="schedule-input time-input">
+                                            <option value="" disabled selected>From</option>
+                                            <option value="07:00">7:00 AM</option>
+                                            <option value="07:30">7:30 AM</option>
+                                            <option value="08:00">8:00 AM</option>
+                                            <option value="08:30">8:30 AM</option>
+                                            <option value="09:00">9:00 AM</option>
+                                            <option value="09:30">9:30 AM</option>
+                                            <option value="10:00">10:00 AM</option>
+                                            <option value="10:30">10:30 AM</option>
+                                            <option value="11:00">11:00 AM</option>
+                                            <option value="11:30">11:30 AM</option>
+                                            <option value="12:00">12:00 PM</option>
+                                            <option value="12:30">12:30 PM</option>
+                                            <option value="13:00">1:00 PM</option>
+                                            <option value="13:30">1:30 PM</option>
+                                            <option value="14:00">2:00 PM</option>
+                                            <option value="14:30">2:30 PM</option>
+                                            <option value="15:00">3:00 PM</option>
+                                            <option value="15:30">3:30 PM</option>
+                                            <option value="16:00">4:00 PM</option>
+                                            <option value="16:30">4:30 PM</option>
+                                            <option value="17:00">5:00 PM</option>
+                                        </select>
+                                        <p class="seperator">-</p>
+                                        <select name="to" id="add-consultation-hour-to-time" class="schedule-input time-input">
+                                            <option value="" disabled selected>To</option>
+                                            <option value="07:00">7:00 AM</option>
+                                            <option value="07:30">7:30 AM</option>
+                                            <option value="08:00">8:00 AM</option>
+                                            <option value="08:30">8:30 AM</option>
+                                            <option value="09:00">9:00 AM</option>
+                                            <option value="09:30">9:30 AM</option>
+                                            <option value="10:00">10:00 AM</option>
+                                            <option value="10:30">10:30 AM</option>
+                                            <option value="11:00">11:00 AM</option>
+                                            <option value="11:30">11:30 AM</option>
+                                            <option value="12:00">12:00 PM</option>
+                                            <option value="12:30">12:30 PM</option>
+                                            <option value="13:00">1:00 PM</option>
+                                            <option value="13:30">1:30 PM</option>
+                                            <option value="14:00">2:00 PM</option>
+                                            <option value="14:30">2:30 PM</option>
+                                            <option value="15:00">3:00 PM</option>
+                                            <option value="15:30">3:30 PM</option>
+                                            <option value="16:00">4:00 PM</option>
+                                            <option value="16:30">4:30 PM</option>
+                                            <option value="17:00">5:00 PM</option>
+                                        </select>
+                                    </td>
+                                    <td><button id="add-consultation-hour-btn" class="btn-style-1 add-btn">Add</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="prof-sec-edit-btn-container">
+                        <button id="update-btn" class="btn-style-1" disabled>Update</button>
+                    </div>
+                </div>
+
+                <div id="schedule-editing" class="div-style-1">
+                    <p class="div-page-title">Class Schedule</p>
+                    <div id="class-schedules-container" class="table-responsive-container">
+                        <!-- GENERATE HTML -->
+                        <table class="class-schedule-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 15%;">Day</th>
+                                    <th style="width: 25%;">Time</th>
+                                    <th style="width: 15%;">Subject</th>
+                                    <th style="width: 15%;">Section</th>
+                                    <th style="width: 20%;">Room / Type</th>
+                                    <th style="width: 10%;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Row for adding a new schedule -->
+                                <tr id="add-class-schedule">
+                                    <td>
+                                        <select id="new-class-day" class="schedule-input">
+                                            <option value="" disabled selected>Day</option>
+                                            <option value="Monday">Monday</option>
+                                            <option value="Tuesday">Tuesday</option>
+                                            <option value="Wednesday">Wednesday</option>
+                                            <option value="Thursday">Thursday</option>
+                                            <option value="Friday">Friday</option>
+                                            <option value="Saturday">Saturday</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select id="new-class-time-from" class="schedule-input time-input">
+                                            <option value="" disabled selected>From</option>
+                                            <option value="07:00">7:00 AM</option>
+                                            <option value="07:30">7:30 AM</option>
+                                            <option value="08:00">8:00 AM</option>
+                                            <option value="08:30">8:30 AM</option>
+                                            <option value="09:00">9:00 AM</option>
+                                            <option value="09:30">9:30 AM</option>
+                                            <option value="10:00">10:00 AM</option>
+                                            <option value="10:30">10:30 AM</option>
+                                            <option value="11:00">11:00 AM</option>
+                                            <option value="11:30">11:30 AM</option>
+                                            <option value="12:00">12:00 PM</option>
+                                            <option value="12:30">12:30 PM</option>
+                                            <option value="13:00">1:00 PM</option>
+                                            <option value="13:30">1:30 PM</option>
+                                            <option value="14:00">2:00 PM</option>
+                                            <option value="14:30">2:30 PM</option>
+                                            <option value="15:00">3:00 PM</option>
+                                            <option value="15:30">3:30 PM</option>
+                                            <option value="16:00">4:00 PM</option>
+                                            <option value="16:30">4:30 PM</option>
+                                            <option value="17:00">5:00 PM</option>
+                                            <option value="17:30">5:30 PM</option>
+                                            <option value="18:00">6:00 PM</option>
+                                            <option value="18:30">6:30 PM</option>
+                                            <option value="19:00">7:00 PM</option>
+                                            <option value="19:30">7:30 PM</option>
+                                            <option value="20:00">8:00 PM</option>
+                                            <option value="20:30">8:30 PM</option>
+                                            <option value="21:00">9:00 PM</option>
+                                        </select> 
+                                        <p class="seperator">-</p>
+                                        <select id="new-class-time-to" class="schedule-input time-input">
+                                            <option value="" disabled selected>To</option>
+                                            <option value="07:00">7:00 AM</option>
+                                            <option value="07:30">7:30 AM</option>
+                                            <option value="08:00">8:00 AM</option>
+                                            <option value="08:30">8:30 AM</option>
+                                            <option value="09:00">9:00 AM</option>
+                                            <option value="09:30">9:30 AM</option>
+                                            <option value="10:00">10:00 AM</option>
+                                            <option value="10:30">10:30 AM</option>
+                                            <option value="11:00">11:00 AM</option>
+                                            <option value="11:30">11:30 AM</option>
+                                            <option value="12:00">12:00 PM</option>
+                                            <option value="12:30">12:30 PM</option>
+                                            <option value="13:00">1:00 PM</option>
+                                            <option value="13:30">1:30 PM</option>
+                                            <option value="14:00">2:00 PM</option>
+                                            <option value="14:30">2:30 PM</option>
+                                            <option value="15:00">3:00 PM</option>
+                                            <option value="15:30">3:30 PM</option>
+                                            <option value="16:00">4:00 PM</option>
+                                            <option value="16:30">4:30 PM</option>
+                                            <option value="17:00">5:00 PM</option>
+                                            <option value="17:30">5:30 PM</option>
+                                            <option value="18:00">6:00 PM</option>
+                                            <option value="18:30">6:30 PM</option>
+                                            <option value="19:00">7:00 PM</option>
+                                            <option value="19:30">7:30 PM</option>
+                                            <option value="20:00">8:00 PM</option>
+                                            <option value="20:30">8:30 PM</option>
+                                            <option value="21:00">9:00 PM</option>
+                                        </select>
+                                    </td>
+                                    <td><input type="text" id="new-class-subject" placeholder="e.g. NET 201" class="schedule-input"></td>
+                                    <td><input type="text" id="new-class-section" placeholder="e.g. 2-IT9" class="schedule-input"></td>
+                                    <td><select id="new-class-room" class="schedule-input"></select></td>
+                                    <td><button id="add-class-btn" class="btn-style-1 add-btn">Add</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="schedule-edit-btn-container">
+                        <button id="update-schedule-btn" class="btn-style-1 update-schedule-btn" disabled>Update</button>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+    </main>
 
     <!--FOOTER-->
     <footer>
@@ -182,12 +380,13 @@
 
     <!--SCIPTS-->
     <script type="module" src="/scripts/proflocator.js"></script>
-    <script type="module" src="/scripts/search-component.js"></script>
 
     <!--PAGE INTERACTIVITY-->
     <script type="module" src="/scripts/data-store.js"></script>
     <script type="module" src="/scripts/prof_cards.js"></script>
+    <script type="module" src="/scripts/search-component.js"></script>
     <script type="module" src="/scripts/prof_section.js"></script>
     <script type="module" src="/scripts/prof_info.js"></script>
+    <script type="module" src="/scripts/side-nav.js"></script>
 </body>
 </html>

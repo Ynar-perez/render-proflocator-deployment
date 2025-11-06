@@ -9,8 +9,9 @@
     background-color: white;
     box-shadow: var(--shadow);
     font-size: 16px;
-    height: auto;
+    height: calc(100vh - 140px); /* Adjust height relative to viewport, minus header/footer */
     padding: 1% 2% 2% 2%;
+    overflow-y: auto; /* Add a scrollbar when content overflows */
 }
 
 #info-section-top {
@@ -56,9 +57,8 @@
 
 #info-section-status {
     text-align: center;
-    margin-top: -4px;
+    margin-top: 6px; /* place status just below the name */
     font-weight: 600;
-    font-weight: bold;
 }
 
 .x-div {
@@ -73,7 +73,7 @@
 }
 
 
-.office-hours-div {
+.consultation-hours-div {
     align-items: flex-start;
 }
 
@@ -91,43 +91,67 @@
     font-size: 18px;
 }
 
-.day-time-div {
+.day-time-div, .class-sched-div {
     display: flex;
     flex-direction: column;
     width: auto;
     border: 2px solid rgb(177, 177, 177);
     border-radius: 8px;
-    padding: 4px 0px;
+    padding: 4px 2px;
     margin: 6px 0;
 }
 
-.day-time {
-    display: flex;
-    flex-direction: row;
+.info-schedule-table {
     width: 100%;
-    align-items: center;
-    height: 100%;
-    padding: 0px 10px;
+    border-collapse: collapse;
 }
 
-.day-time .day {
-    display: inherit;
-    flex-direction: row;
+.info-schedule-table td {
+    padding: 2px 8px;
+    white-space: nowrap;
+    font-size: 14px;
+}
+
+.info-schedule-table tr:not(:last-child) {
+    border-bottom: 1px solid #eee;
+}
+
+.info-schedule-table {
+    table-layout: auto;
+    width: 100%;
+}
+
+.info-schedule-table th {
+    background-color: #f8f9fa;
     font-weight: bold;
-    flex: 1;
+    text-align: left;
+    padding: 6px 8px;
 }
 
-.day-time .time {
-    display: inherit;
-    margin-left: 10px;
-    width: 80px;
-    justify-content: end;
+.day-col {
+    font-weight: bold;
 }
 
-.day-time .to {
-    margin: 0 8px;
+.room-col {
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.day-time .time-until {
-    width: 80px;
+.empty-schedule,
+.empty-consultation-hours {
+    padding: 8px 10px;
+    color: #6c757d;
+    font-style: italic;
+    font-size: 14px;
+}
+
+.info-section .status-container {
+    text-align: center;
+}
+
+.location-time-ago {
+    font-size: 0.8em;
+    color: #6c757d;
+    font-style: italic;
 }

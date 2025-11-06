@@ -11,7 +11,7 @@ function applyFilters() {
         const statusElem = card.querySelector('.status');
 
         const name = nameElem ? nameElem.innerText.replace('Prof. ', '').toLowerCase() : '';
-        const status = statusElem ? statusElem.innerText : '';
+        const status = statusElem ? statusElem.textContent.trim() : '';
 
         const nameMatch = name.includes(currentSearchQuery);
         const statusMatch = currentStatusFilter === 'All' || status === currentStatusFilter;

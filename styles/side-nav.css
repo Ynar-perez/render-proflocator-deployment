@@ -1,0 +1,32 @@
+#side-nav {
+    display: flex;
+    flex-direction: column;
+    row-gap: 4px;
+    position: fixed;
+    left: 0;
+    top: 70px; /* Header height */
+    bottom: 40px; /* Footer height */
+    background-color: #f8f9fa;
+    width: 20%;
+    padding: 20px 10px;
+    border-right: 1px solid #dee2e6;
+}
+
+.side-nav-option {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    cursor: pointer;
+    padding: 0 30px;
+    margin: 0 10px;
+    border-radius: 6px;
+    font-weight: 600;
+    color: #343a40;
+    background-color: transparent;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.side-nav-option:hover, .side-nav-option.active {
+    background-color: var(--webColor1);
+    color: white;
+}

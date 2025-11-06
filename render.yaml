@@ -1,0 +1,42 @@
+# Render app manifest for deploying the web service and background worker
+# Edit values (name, plan, branch) as needed. Do NOT store secrets here; set them in Render's dashboard.
+
+services:
+  - type: web
+    name: prof-locator-web
+    env: node
+    plan: starter
+    branch: main
+    buildCommand: npm install
+    startCommand: npm run start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false
+      - key: SESSION_SECRET
+        sync: false
+      - key: ALLOWED_ORIGIN
+        sync: false
+
+  - type: worker
+    name: prof-locator-worker
+    env: node
+    plan: starter
+    branch: main
+    buildCommand: npm install
+    startCommand: npm run worker
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false
+      - key: SESSION_SECRET
+        sync: false
+      - key: STATUS_DEBUG
+        value: "false"
+
+# Notes:
+# - Render will not store secret values that have sync: false in the file; set them in the service's dashboard.
+# - If you want to use a different branch, change `branch` above.
+# - After pushing this file to GitHub, create services in Render and point them to the repo/branch, or let Render auto-detect using this manifest.
