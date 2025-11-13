@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node server/server.js",
     "dev": "nodemon server/server.js",
-    "worker": "node server/worker.js"
+    "worker": "node server/worker.js",
+    "vercel-build": "echo 'No build step required'"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
