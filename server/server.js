@@ -13,11 +13,6 @@ import cookieParser from 'cookie-parser';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-// Now this import will work, because the .env variables are already loaded
-import { connectDB, client } from './db/connect.js'; 
-import authRoutes from './routes/authRoutes.js';     
-import profRoutes from './routes/professorRoutes.js';
-
 // Now this import will work, because dotenv.config() has already run
 import { connectDB, client } from './db/connect.js'; 
 import authRoutes from './routes/authRoutes.js';     
