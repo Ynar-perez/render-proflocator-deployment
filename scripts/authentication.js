@@ -83,16 +83,23 @@ document.addEventListener('DOMContentLoaded', () => {
             const result = await response.json();
 
             if (response.ok) {
-                alert(result.message);
+                // SUCCESS! (201 Created)
+                alert(result.message); // "User created successfully!"
+                
+                // Switch back to login form
                 signupDiv.style.display = 'none';
                 loginDiv.style.display = 'flex';
             } else {
-                alert(`Error: ${result.message}`);
+                // ERROR! (409 Conflict, 400 Bad Request)
+                // We already parsed the JSON, so just use the error message.
+                alert(`Error: ${result.message || 'An unknown error occurred.'}`);
             }
+
         } catch (error) {
             console.error('Sign-up failed:', error);
             alert('Sign-up failed. Please try again later.');
         }
+
     });
 
     // LOGIN 
@@ -115,19 +122,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
                 body: JSON.stringify({ email, password }),
             });
-
-            const result = await response.json();
-
+    
+            // 1. Check for success (status 200-299)
             if (response.ok) {
-                // Store user data in sessionStorage to pass it to the next page
+                const result = await response.json(); // Safely parse JSON for success
+                
+                // Store user data...
                 sessionStorage.setItem('loggedInUser', JSON.stringify(result.user));
-
-                // Redirect to the main application page
+    
+                // Redirect...
                 window.location.href = 'proflocator.html';
             } else {
-                alert(`Error: ${result.message}`);
+                // 2. Handle server errors (e.g., 401, 404, 405)
+                // Attempt to parse JSON error message if content-type is json
+                const contentType = response.headers.get("content-type");
+                if (contentType && contentType.includes("application/json")) {
+                    const errorResult = await response.json();
+                    alert(`Error: ${errorResult.message || 'Server error'}`);
+                } else {
+                    // Handle non-JSON errors (like the 405 error with no body)
+                    alert(`Login failed: HTTP Status ${response.status} (${response.statusText}).`);
+                    console.error('Server responded with non-JSON error:', await response.text());
+                }
             }
         } catch (error) {
+        // ... (rest of your existing catch block)
             console.error('Login failed:', error);
             alert('Login failed. Please check your connection and try again.');
         }

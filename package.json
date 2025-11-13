@@ -4,9 +4,9 @@
     "node": "18.x"
   },
   "scripts": {
-    "start": "node backend/server.js",
-    "dev": "nodemon backend/server.js",
-    "worker": "node backend/worker.js"
+    "start": "node server/server.js",
+    "dev": "nodemon server/server.js",
+    "worker": "node server/worker.js"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
