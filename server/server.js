@@ -1,6 +1,7 @@
 // server.js
 
-import './config.js';
+import './config.js'; 
+
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -11,6 +12,11 @@ import cookieParser from 'cookie-parser';
 
 import path from 'path';
 import { fileURLToPath } from 'url';
+
+// Now this import will work, because the .env variables are already loaded
+import { connectDB, client } from './db/connect.js'; 
+import authRoutes from './routes/authRoutes.js';     
+import profRoutes from './routes/professorRoutes.js';
 
 // Now this import will work, because dotenv.config() has already run
 import { connectDB, client } from './db/connect.js'; 
@@ -77,35 +83,10 @@ app.get('/health', (req, res) => {
   res.json({ ok: true, env: process.env.NODE_ENV || 'development' });
 });
 
-// --- Start Server ---
-const startServer = async () => {
-  try {
-    // 1. Connect to the database
-    await connectDB();
-    
-    // 2. Start the Express server
-    const server = app.listen(port, () => {
-      console.log(`🚀 Server is running on http://localhost:${port}`);
-    });
+connectDB().then(() => {
+  console.log("Database connected. App is ready.");
+}).catch(error => {
+  console.error("Failed to connect to DB on startup:", error);
+});
 
-    // --- Graceful Shutdown ---
-    const gracefulShutdown = (signal) => {
-      console.log(`Received ${signal}. Closing http server.`);
-      server.close(async () => {
-        console.log('Http server closed.');
-        await client.close(); // Close DB client
-        console.log('MongoDB client closed.');
-        process.exit(0);
-      });
-    };
-
-    process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
-    process.on('SIGINT', () => gracefulShutdown('SIGINT'));
-
-  } catch (error) {
-    console.error("Failed to start server:", error);
-    process.exit(1);
-  }
-};
-
-startServer();
+export default app;

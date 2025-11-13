@@ -1,0 +1,54 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/index.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "."
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "api/index.js"
+    },
+    {
+      "src": "/styles/(.*)",
+      "dest": "styles/$1"
+    },
+    {
+      "src": "/scripts/(.*)",
+      "dest": "scripts/$1"
+    },
+    {
+      "src": "/media/(.*)",
+      "dest": "media/$1"
+    },
+    {
+      "src": "/proflocator.html",
+      "dest": "proflocator.html"
+    },
+    {
+      "src": "/account.html",
+      "dest": "account.html"
+    },
+    {
+      "src": "/admin.html",
+      "dest": "admin.html"
+    },
+    {
+      "src": "/",
+      "dest": "index.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "api/index.js"
+    }
+  ]
+}
